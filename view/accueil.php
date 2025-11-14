@@ -61,11 +61,18 @@
             transform: scale(1.05);
         }
     </style>
-    
+
 </head>
 <body>
     <div class="container">
         <h1>GESTION DES ESCALES - PORT DE LA ROCHELLE</h1>
+        <form method="POST" action="index.php" style="position:absolute; top:20px; right:20px;">
+            <input type="hidden" name="action" value="logout">
+            <button type="submit" 
+                    style="padding:10px 20px; background:#c0392b; color:white; border:none; border-radius:5px; cursor:pointer;">
+                Déconnexion
+            </button>
+        </form>
         
         <!-- Première ligne avec 3 divs -->
         <div class="row">
