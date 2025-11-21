@@ -1,11 +1,13 @@
 <nav>
     <a href="index.php?page=employes">Employés</a> |
-    <a href="index.php?page=escales">Escales</a>
+    <a href="index.php?page=escales">Escales</a> |
+    <a href="index.php?page=navires">Navires</a>
 </nav>
 
 <?php
-require_once "controleur/EmployeControleur.php";
-require_once "controleur/EscaleControleur.php";
+require_once "controller/EmployeController.php";
+require_once "controller/EscaleController.php";
+require_once "controller/NavireController.php";
 
 $page = $_GET['page'] ?? "employes";
 
@@ -44,6 +46,26 @@ switch ($page) {
     case "escale_supprimer":
         if (!isset($_GET['id_escale'])) die("ID escale manquant");
         supprimerEscale((int)$_GET['id_escale']);
+        break;
+
+    // ---------------- NAVIRES ----------------
+    case "navires":
+        afficherNavires();
+        break;
+    case "navire_create":
+        creerNavire();
+        break;
+    case "navire_details":
+        if (!isset($_GET['id_navire'])) die("ID navire manquant");
+        afficherNavire((int)$_GET['id_navire']);
+        break;
+    case "navire_modifier":
+        if (!isset($_GET['id_navire'])) die("ID navire manquant");
+        modifierNavire((int)$_GET['id_navire']);
+        break;
+    case "navire_supprimer":
+        if (!isset($_GET['id_navire'])) die("ID navire manquant");
+        supprimerNavire((int)$_GET['id_navire']);
         break;
 
     default:

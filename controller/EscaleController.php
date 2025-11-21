@@ -1,9 +1,9 @@
 <?php
-require_once "modele/EscaleModele.php";
+require_once "model/EscaleModel.php";
 
 function afficherEscales() {
     $escales = getEscales();
-    require "vue/Escale_liste.php";
+    require "view/Escale_liste.php";
 }
 
 function creerEscale() {
@@ -24,13 +24,13 @@ function creerEscale() {
         exit;
     }
 
-    require "vue/Escale_create.php";
+    require "view/Escale_create.php";
 }
 
 function afficherEscale($id_escale) {
     $escale = getEscaleById($id_escale);
     if (!$escale) die("Escale introuvable.");
-    require "vue/Escale_details.php";
+    require "view/Escale_details.php";
 }
 
 function modifierEscale($id_escale) {
@@ -76,7 +76,7 @@ function modifierEscale($id_escale) {
         exit;
     }
 
-    require "vue/Escale_modifier.php";
+    require "view/Escale_modifier.php";
 }
 
 

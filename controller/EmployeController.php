@@ -1,10 +1,10 @@
 <?php
-require_once "modele/EmployeModele.php";
+require_once "model/EmployeModel.php";
 
 function afficherEmployes() {
     $employes = getEmployes();
     $message = $_GET['deleted'] ?? '';
-    require "vue/Employe_liste.php";
+    require "view/Employe_liste.php";
 }
 
 function ajouterEmploye() {
@@ -13,7 +13,7 @@ function ajouterEmploye() {
         header("Location: index.php?page=employes");
         exit;
     }
-    require "vue/Employe_ajouter.php";
+    require "view/Employe_ajouter.php";
 }
 
 function modifierEmploye() {
@@ -32,7 +32,7 @@ function modifierEmploye() {
         exit;
     }
 
-    require "vue/Employe_modifier.php";
+    require "view/Employe_modifier.php";
 }
 
 function supprimerEmploye() {
@@ -46,7 +46,7 @@ function supprimerEmploye() {
     if (!$res) {
         $message = "Impossible : cet employé est affecté à une escale.";
         $employes = getEmployes();
-        require "vue/Employe_liste.php";
+        require "view/Employe_liste.php";
         return;
     }
 
