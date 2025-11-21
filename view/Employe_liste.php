@@ -17,9 +17,9 @@
 
 <h1 style="text-align:center;color:#003366;">Employés du port</h1>
 
-<?php if (!empty($message)): ?>
+<!-- <?php if (!empty($message)): ?>
     <p class="message"><?= htmlspecialchars($message) ?></p>
-<?php endif; ?>
+<?php endif; ?> -->
 
 <table>
 <thead>

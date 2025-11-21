@@ -47,7 +47,7 @@
         <td><?= $navire['propulseur'] ? 'Oui' : 'Non' ?></td>
         <td><?= $navire['remorqueur'] ? 'Oui' : 'Non' ?></td>
         <td><?= $navire['id_fret'] ?></td>
-        <td><?= $navire['id_armateur'] ?></td>
+        <td><?= $navire['id'] ?></td>
         <td><?= $navire['id_port'] ?></td>
         <td>
             <!-- Voir : affiche les détails (contrôleur -> Navire::getById) -->

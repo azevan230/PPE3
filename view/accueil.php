@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -119,11 +118,3 @@
     </div>
 </body>
 </html>
-=======
-<?php
-    require_once 'config/config.php';
-    include 'controller/NavireController.php';
-    $controller = new NavireController();
-    $controller->handleRequest();
-?>
->>>>>>> jonathan
