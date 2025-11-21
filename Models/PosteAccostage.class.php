@@ -20,12 +20,22 @@ class PosteAccostage {
     }
 
     // Getters
-    public function getId_poste_accostage() { return $this->id_poste_accostage; }
-    public function getId_quai() { return $this->id_quai; }
+    public function getId_poste_accostage() { 
+        return $this->id_poste_accostage; 
+    }
+    
+    public function getId_quai() { 
+        return $this->id_quai; 
+    }
 
-    // Setters
+    // Setters - CORRECTION CRITIQUE
     public function setId_poste_accostage($id_poste_accostage) { 
-        $this->id_poste_accostage = (int) $id_poste_accostage; 
+        // Ne définir l'ID que s'il est valide et > 0
+        if ($id_poste_accostage !== null && $id_poste_accostage > 0) {
+            $this->id_poste_accostage = (int) $id_poste_accostage;
+        } else {
+            $this->id_poste_accostage = null; // Important pour l'auto-incrément
+        }
     }
     
     public function setId_quai($id_quai) { 

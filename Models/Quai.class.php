@@ -21,13 +21,27 @@ class Quai {
     }
 
     // Getters
-    public function getId_quai() { return $this->id_quai; }
-    public function getNom() { return $this->nom; }
-    public function getTirant_eau_max() { return $this->tirant_eau_max; }
+    public function getId_quai() { 
+        return $this->id_quai; 
+    }
+    
+    public function getNom() { 
+        return $this->nom; 
+    }
+    
+    public function getTirant_eau_max() { 
+        return $this->tirant_eau_max; 
+    }
 
-    // Setters
+    // Setters - CORRECTION CRITIQUE
     public function setId_quai($id_quai) { 
-        $this->id_quai = (int) $id_quai; 
+        // Ne définir l'ID que s'il est valide et > 0
+        // Pour les nouvelles créations, l'ID doit être null
+        if ($id_quai !== null && $id_quai > 0) {
+            $this->id_quai = (int) $id_quai;
+        } else {
+            $this->id_quai = null; // Important pour l'auto-incrément
+        }
     }
     
     public function setNom($nom) { 

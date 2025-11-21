@@ -33,47 +33,45 @@ class QuaiController {
     }
 
     public function listePostes() {
-    $id_quai = isset($_GET['id_quai']) ? (int)$_GET['id_quai'] : 0;
-    
-    if ($id_quai <= 0) {
-        $_SESSION['erreur'] = "Quai non spécifié";
-        header('Location: index.php?page=quais');
-        exit();
-    }
-
-    try {
-        $quai = $this->quaiManager->getQuaiById($id_quai);
-        if (!$quai) {
-            $_SESSION['erreur'] = "Quai non trouvé";
+        $id_quai = isset($_GET['id_quai']) ? (int)$_GET['id_quai'] : 0;
+        
+        if ($id_quai <= 0) {
+            $_SESSION['erreur'] = "Quai non spécifié";
             header('Location: index.php?page=quais');
             exit();
         }
 
-        $postes = $this->posteAccostageManager->getPostesByQuai($id_quai);
-        $typesFret = $this->quaiManager->getTypesFretByQuai($id_quai);
-        
-        // CORRECTION : Calculer la disponibilité pour chaque poste
-        $postesAvecDisponibilite = [];
-        foreach ($postes as $poste) {
-            $disponible = $this->posteAccostageManager->isPosteDisponible($poste->getId_poste_accostage());
-            $postesAvecDisponibilite[] = [
-                'poste' => $poste,
-                'disponible' => $disponible
-            ];
+        try {
+            $quai = $this->quaiManager->getQuaiById($id_quai);
+            if (!$quai) {
+                $_SESSION['erreur'] = "Quai non trouvé";
+                header('Location: index.php?page=quais');
+                exit();
+            }
+
+            $postes = $this->posteAccostageManager->getPostesByQuai($id_quai);
+            $typesFret = $this->quaiManager->getTypesFretByQuai($id_quai);
+            
+            $postesAvecDisponibilite = [];
+            foreach ($postes as $poste) {
+                $disponible = $this->posteAccostageManager->isPosteDisponible($poste->getId_poste_accostage());
+                $postesAvecDisponibilite[] = [
+                    'poste' => $poste,
+                    'disponible' => $disponible
+                ];
+            }
+            
+            require 'views/postes.php';
+            
+        } catch (Exception $e) {
+            error_log("Erreur dans listePostes: " . $e->getMessage());
+            $_SESSION['erreur'] = "Erreur lors du chargement des postes: " . $e->getMessage();
+            header('Location: index.php?page=quais');
+            exit();
         }
-        
-        require 'views/postes.php';
-        
-    } catch (Exception $e) {
-        error_log("Erreur dans listePostes: " . $e->getMessage());
-        $_SESSION['erreur'] = "Erreur lors du chargement des postes: " . $e->getMessage();
-        header('Location: index.php?page=quais');
-        exit();
     }
-}
 
     public function creerQuai() {
-        // Récupérer tous les types de fret disponibles
         $typesFret = $this->fretManager->getAllFret();
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -86,12 +84,11 @@ class QuaiController {
                 try {
                     $this->db->beginTransaction();
                     
-                    // Créer le quai
-                    $quai = new Quai($data);
-                    if ($this->quaiManager->creerQuai($quai)) {
-                        $id_quai = $this->db->lastInsertId();
-                        
-                        // Gérer les types de fret sélectionnés
+                    // CRÉATION AVEC ID MANUEL
+                    $id_quai = $this->quaiManager->creerQuaiEtRetournerId($data);
+                    
+                    if ($id_quai > 0) {
+                        // Gérer les types de fret
                         if (isset($_POST['types_fret']) && is_array($_POST['types_fret'])) {
                             foreach ($_POST['types_fret'] as $id_fret) {
                                 $this->fretManager->associerFretQuai($id_fret, $id_quai);
@@ -99,7 +96,7 @@ class QuaiController {
                         }
                         
                         $this->db->commit();
-                        $_SESSION['success'] = "Quai créé avec succès";
+                        $_SESSION['success'] = "Quai créé avec succès (ID: $id_quai)";
                         header('Location: index.php?page=quais');
                         exit();
                     } else {
@@ -112,6 +109,9 @@ class QuaiController {
                 }
             }
         }
+        
+        $quai = null;
+        $typesFretQuai = [];
         require 'views/form_quai.php';
     }
 
@@ -140,11 +140,9 @@ class QuaiController {
                     try {
                         $this->db->beginTransaction();
                         
-                        // Modifier le quai
                         $quai = new Quai($data);
                         if ($this->quaiManager->modifierQuai($quai)) {
                             
-                            // Mettre à jour les types de fret
                             $this->fretManager->supprimerAssociationsFretQuai($id_quai);
                             
                             if (isset($_POST['types_fret']) && is_array($_POST['types_fret'])) {
@@ -213,9 +211,11 @@ class QuaiController {
                 ];
 
                 if ($this->validerDonneesPoste($data)) {
-                    $poste = new PosteAccostage($data);
-                    if ($this->posteAccostageManager->creerPoste($poste)) {
-                        $_SESSION['success'] = "Poste créé avec succès";
+                    // CRÉATION AVEC ID MANUEL
+                    $id_poste = $this->posteAccostageManager->creerPosteEtRetournerId($data);
+                    
+                    if ($id_poste > 0) {
+                        $_SESSION['success'] = "Poste créé avec succès (ID: $id_poste)";
                         header("Location: index.php?page=postes&id_quai=$id_quai");
                         exit();
                     } else {
