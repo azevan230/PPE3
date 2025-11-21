@@ -8,6 +8,7 @@
 require_once "controller/EmployeController.php";
 require_once "controller/EscaleController.php";
 require_once "controller/NavireController.php";
+require_once 'controller/LoginController.php';
 
 $page = $_GET['page'] ?? "login";
 
