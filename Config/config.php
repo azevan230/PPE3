@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 class Database {
     private static $instance = null;
     
@@ -13,4 +14,10 @@ class Database {
         }
         return self::$instance;
     }
+=======
+try {
+    $pdo = new PDO('mysql:host=localhost;dbname=escale', 'root', '');
+} catch (\PDOException $e) {
+    die("Erreur connexion BDD : " . $e->getMessage());
+>>>>>>> jonathan
 }

@@ -1,5 +1,14 @@
 <?php
+<<<<<<< HEAD
 session_start(); // Démarrer la session dès le début
+=======
+// Démarre la session pour gérer l'authentification
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require_once 'controller/LoginController.php';
+>>>>>>> jonathan
 
 require_once "controller/EmployeController.php";
 require_once "controller/EscaleController.php";
