@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<?php
-require_once 'controller/LoginController.php';
-
-$controller = new LoginController();
-$controller->handleRequest();
-=======
 <nav>
     <a href="index.php?page=employes">Employés</a> |
     <a href="index.php?page=escales">Escales</a> |
@@ -16,9 +9,16 @@ require_once "controller/EmployeController.php";
 require_once "controller/EscaleController.php";
 require_once "controller/NavireController.php";
 
-$page = $_GET['page'] ?? "employes";
+$page = $_GET['page'] ?? "login";
 
 switch ($page) {
+    case "login":
+        require "view/login.php";
+        break;
+    
+    case "accueil":
+        require "view/accueil.php";
+        break;
     // ---------------- EMPLOYES ----------------
     case "employes":
         afficherEmployes();
@@ -78,5 +78,4 @@ switch ($page) {
     default:
         echo "Page non trouvée.";
 }
->>>>>>> flotime
 ?>
