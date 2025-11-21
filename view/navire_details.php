@@ -1,10 +1,10 @@
 <?php
-// $navire peut être null (create) ou un tableau (update/view)
-// $action = 'create' | 'update' | 'view'
-$action = $_GET['action'] ?? 'list';
-$readonly = ($action === 'view') ? 'readonly' : '';
-$disabled = ($action === 'view') ? 'disabled' : '';
-// valeurs par défaut
+// $navire fourni par le contrôleur (array) ou null (create)
+// $action attendu dans la query string
+$action = $_GET['action'] ?? 'create';
+$id_navire = intval($_GET['id_navire'] ?? ($_POST['id_navire'] ?? 0));
+
+// Détermine valeurs pour préremplir le formulaire
 $values = [
     'nom' => $navire['nom'] ?? '',
     'autorise' => $navire['autorise'] ?? 0,
@@ -15,13 +15,21 @@ $values = [
     'propulseur' => $navire['propulseur'] ?? 0,
     'remorqueur' => $navire['remorqueur'] ?? 0,
     'id_fret' => $navire['id_fret'] ?? '',
+    // utiliser 'id' car le modèle Navire attend 'id' pour l'armateur
     'id' => $navire['id'] ?? '',
     'id_port' => $navire['id_port'] ?? '',
 ];
+$readonly = ($action === 'view') ? 'readonly' : '';
+$disabled = ($action === 'view') ? 'disabled' : '';
 ?>
 <h2><?php echo ($action === 'create') ? 'Ajouter un navire' : (($action === 'view') ? 'Détails du navire' : 'Modifier le navire'); ?></h2>
 
-<form method="post" action="navire_details.php?action=<?php echo htmlspecialchars($action) . ($navire['id_navire'] ?? (isset($_GET['id_navire']) ? '&id_navire=' . intval($_GET['id_navire']) : '')); ?>">
+<form method="post" action="navire_details.php?action=<?php echo htmlspecialchars($action); ?><?php if ($id_navire) echo '&id_navire=' . $id_navire; ?>">
+    <!-- Pour update, on envoie l'id en hidden pour le POST -->
+    <?php if ($action !== 'create'): ?>
+        <input type="hidden" name="id_navire" value="<?php echo $id_navire; ?>">
+    <?php endif; ?>
+
     <label>Nom:</label>
     <input type="text" name="nom" value="<?php echo htmlspecialchars($values['nom']); ?>" <?php echo $readonly; ?> required><br>
 
