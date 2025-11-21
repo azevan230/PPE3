@@ -1,25 +1,39 @@
-<nav>
-    <a href="index.php?page=employes">Employés</a> |
-    <a href="index.php?page=escales">Escales</a> |
-    <a href="index.php?page=navires">Navires</a>
-</nav>
-
 <?php
+session_start(); // Démarrer la session dès le début
+
 require_once "controller/EmployeController.php";
 require_once "controller/EscaleController.php";
 require_once "controller/NavireController.php";
 require_once 'controller/LoginController.php';
+require_once 'model/SessionModel.php';
 
 $page = $_GET['page'] ?? "login";
 
+// Gestion de la déconnexion
+if (isset($_POST['action']) && $_POST['action'] === 'logout') {
+    $sessionModel = new SessionModel();
+    $sessionModel->destroySession();
+    header('Location: index.php?page=login');
+    exit;
+}
+
+// Si pas connecté et pas sur la page login, rediriger vers login
+$sessionModel = new SessionModel();
+if (!$sessionModel->isLoggedIn() && $page !== 'login') {
+    header('Location: index.php?page=login');
+    exit;
+}
+
 switch ($page) {
     case "login":
-        require "view/login.php";
+        $loginController = new LoginController();
+        $loginController->handleRequest();
         break;
     
     case "accueil":
         require "view/accueil.php";
         break;
+        
     // ---------------- EMPLOYES ----------------
     case "employes":
         afficherEmployes();

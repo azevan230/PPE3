@@ -30,6 +30,19 @@
             margin: 0;
         }
         
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
         .row {
             display: flex;
             flex-wrap: wrap;
@@ -60,32 +73,47 @@
             background-color: rgba(255, 255, 255, 1);
             transform: scale(1.05);
         }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background: #c0392b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #a02818;
+        }
     </style>
-
 </head>
 <body>
     <div class="container">
         <h1>GESTION DES ESCALES - PORT DE LA ROCHELLE</h1>
-        <form method="POST" action="index.php" style="position:absolute; top:20px; right:20px;">
-            <input type="hidden" name="action" value="logout">
-            <button type="submit" 
-                    style="padding:10px 20px; background:#c0392b; color:white; border:none; border-radius:5px; cursor:pointer;">
-                Déconnexion
-            </button>
-        </form>
+        
+        <div class="user-info">
+            <span>Connecté en tant que : <strong><?= htmlspecialchars($_SESSION['username'] ?? 'Utilisateur') ?></strong></span>
+            <form method="POST" action="index.php" style="margin: 0;">
+                <input type="hidden" name="action" value="logout">
+                <button type="submit" class="logout-btn">Déconnexion</button>
+            </form>
+        </div>
         
         <!-- Première ligne avec 3 divs -->
         <div class="row">
-            <a href="page1.html" class="clickable-div">Gestion des navires</a>
+            <a href="index.php?page=navires" class="clickable-div">Gestion des navires</a>
             <a href="page2.html" class="clickable-div">Gestion des armateurs</a>
-            <a href="page3.html" class="clickable-div">Gestion des demandes d'escales</a>
+            <a href="index.php?page=escales" class="clickable-div">Gestion des demandes d'escales</a>
         </div>
         
         <!-- Deuxième ligne avec 3 divs -->
         <div class="row">
             <a href="page4.html" class="clickable-div">Gestion des infrastructures</a>
-            <a href="page5.html" class="clickable-div">Gestion des employés</a>
-            <a href="page6.html" class="clickable-div">Gestion des escales</a>
+            <a href="index.php?page=employes" class="clickable-div">Gestion des employés</a>
+            <a href="index.php?page=escales" class="clickable-div">Gestion des escales</a>
         </div>
     </div>
 </body>

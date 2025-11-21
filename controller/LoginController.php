@@ -4,51 +4,39 @@ require_once 'model/SessionModel.php';
 
 class LoginController {
 
-    // Méthode principale appelée depuis index.php
     public function handleRequest() {
-
         $error = '';
-        $model = new UserModel(); // Accès au modèle utilisateur
-
-
-        // --- Déconnexion en POST ---
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' 
-            && isset($_POST['action']) 
-            && $_POST['action'] === 'logout') {
-
-            $sessionModel = new SessionModel();
-            $sessionModel->destroySession();
-            header('Location: index.php');
+        $sessionModel = new SessionModel();
+        
+        // Si déjà connecté, rediriger vers accueil
+        if ($sessionModel->isLoggedIn()) {
+            header('Location: index.php?page=accueil');
             exit;
         }
 
+        // Traitement du formulaire de connexion
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
+            $login = $_POST['user'] ?? '';
+            $mdp = $_POST['password'] ?? '';
 
-        // --- Connexion ---
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            if (isset($_POST['login'])) {
-
-                $login = $_POST['user'] ?? '';
-                $mdp   = $_POST['password'] ?? '';
-
-                // Vérifie les identifiants
+            if (!empty($login) && !empty($mdp)) {
+                $model = new UserModel();
                 $user = $model->checkLogin($login, $mdp);
 
                 if ($user) {
-                    // Connexion OK -> création session
-                    $sessionModel = new SessionModel();
+                    // Connexion réussie
                     $sessionModel->createSession($user);
-
-                    include 'view/accueil.php';
+                    header('Location: index.php?page=accueil');
                     exit;
                 } else {
-                    // Identifiants incorrects
                     $error = 'Identifiants incorrects';
                 }
+            } else {
+                $error = 'Veuillez remplir tous les champs';
             }
         }
 
-        // Affiche la page de login
+        // Afficher la page de login avec le message d'erreur éventuel
         include 'view/login.php';
     }
 }
