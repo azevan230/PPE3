@@ -1,37 +1,64 @@
-<h1>
 <?php
-if ($action === 'create') echo "Ajouter un navire";
-elseif ($action === 'update') echo "Modifier le navire";
-else echo "Détails du navire";
+// $navire peut être null (create) ou un tableau (update/view)
+// $action = 'create' | 'update' | 'view'
+$action = $_GET['action'] ?? 'list';
+$readonly = ($action === 'view') ? 'readonly' : '';
+$disabled = ($action === 'view') ? 'disabled' : '';
+// valeurs par défaut
+$values = [
+    'nom' => $navire['nom'] ?? '',
+    'autorise' => $navire['autorise'] ?? 0,
+    'longueur' => $navire['longueur'] ?? '',
+    'largeur' => $navire['largeur'] ?? '',
+    'tirant_eau' => $navire['tirant_eau'] ?? '',
+    'capacite' => $navire['capacite'] ?? '',
+    'propulseur' => $navire['propulseur'] ?? 0,
+    'remorqueur' => $navire['remorqueur'] ?? 0,
+    'id_fret' => $navire['id_fret'] ?? '',
+    'id' => $navire['id'] ?? '',
+    'id_port' => $navire['id_port'] ?? '',
+];
 ?>
-</h1>
+<h2><?php echo ($action === 'create') ? 'Ajouter un navire' : (($action === 'view') ? 'Détails du navire' : 'Modifier le navire'); ?></h2>
 
-<form method="post" action="">
-    <label>Nom: <input type="text" name="nom" value="<?= $navire['nom'] ?? '' ?>"></label><br>
+<form method="post" action="navire_details.php?action=<?php echo htmlspecialchars($action) . ($navire['id_navire'] ?? (isset($_GET['id_navire']) ? '&id_navire=' . intval($_GET['id_navire']) : '')); ?>">
+    <label>Nom:</label>
+    <input type="text" name="nom" value="<?php echo htmlspecialchars($values['nom']); ?>" <?php echo $readonly; ?> required><br>
 
-    <label>Autorisé: 
-        <input type="checkbox" name="autorise" value="1" <?= !empty($navire['autorise']) ? 'checked' : '' ?>>
-    </label><br>
+    <label>Autorisé:</label>
+    <input type="checkbox" name="autorise" value="1" <?php echo ($values['autorise'] ? 'checked' : ''); ?> <?php echo $disabled; ?>><br>
 
-    <label>Longueur (m): <input type="number" step="0.1" name="longueur" value="<?= $navire['longueur'] ?? '' ?>"></label><br>
-    <label>Largeur (m): <input type="number" step="0.1" name="largeur" value="<?= $navire['largeur'] ?? '' ?>"></label><br>
-    <label>Tirant d'eau (m): <input type="number" step="0.1" name="tirant_eau" value="<?= $navire['tirant_eau'] ?? '' ?>"></label><br>
-    <label>Capacité: <input type="number" step="0.1" name="capacite" value="<?= $navire['capacite'] ?? '' ?>"></label><br>
+    <label>Longueur:</label>
+    <input type="number" step="0.1" name="longueur" value="<?php echo htmlspecialchars($values['longueur']); ?>" <?php echo $readonly; ?>><br>
 
-    <label>Propulseur: 
-        <input type="checkbox" name="propulseur" value="1" <?= !empty($navire['propulseur']) ? 'checked' : '' ?>>
-    </label><br>
+    <label>Largeur:</label>
+    <input type="number" step="0.1" name="largeur" value="<?php echo htmlspecialchars($values['largeur']); ?>" <?php echo $readonly; ?>><br>
 
-    <label>Remorqueur: 
-        <input type="checkbox" name="remorqueur" value="1" <?= !empty($navire['remorqueur']) ? 'checked' : '' ?>>
-    </label><br>
+    <label>Tirant d'eau:</label>
+    <input type="number" step="0.1" name="tirant_eau" value="<?php echo htmlspecialchars($values['tirant_eau']); ?>" <?php echo $readonly; ?>><br>
 
-    <label>ID Fret: <input type="number" name="id_fret" value="<?= $navire['id_fret'] ?? '' ?>"></label><br>
-    <label>ID: <input type="number" name="id" value="<?= $navire['id'] ?? '' ?>"></label><br>
-    <label>ID Port: <input type="number" name="id_port" value="<?= $navire['id_port'] ?? '' ?>"></label><br>
+    <label>Capacité:</label>
+    <input type="number" step="0.1" name="capacite" value="<?php echo htmlspecialchars($values['capacite']); ?>" <?php echo $readonly; ?>><br>
 
-    <button type="submit">Enregistrer</button>
+    <label>Propulseur:</label>
+    <input type="checkbox" name="propulseur" value="1" <?php echo ($values['propulseur'] ? 'checked' : ''); ?> <?php echo $disabled; ?>><br>
+
+    <label>Remorqueur:</label>
+    <input type="checkbox" name="remorqueur" value="1" <?php echo ($values['remorqueur'] ? 'checked' : ''); ?> <?php echo $disabled; ?>><br>
+
+    <label>ID Fret:</label>
+    <input type="number" name="id_fret" value="<?php echo htmlspecialchars($values['id_fret']); ?>" <?php echo $readonly; ?>><br>
+
+    <label>ID Armateur (id):</label>
+    <input type="number" name="id" value="<?php echo htmlspecialchars($values['id']); ?>" <?php echo $readonly; ?>><br>
+
+    <label>ID Port:</label>
+    <input type="number" name="id_port" value="<?php echo htmlspecialchars($values['id_port']); ?>" <?php echo $readonly; ?>><br>
+
+    <?php if ($action === 'view'): ?>
+        <p><a href="navires.php">Retour</a></p>
+    <?php else: ?>
+        <button type="submit"><?php echo ($action === 'create') ? 'Créer' : 'Enregistrer'; ?></button>
+        <a href="navires.php">Annuler</a>
+    <?php endif; ?>
 </form>
-
-
-<a href="navires.php">Retour à la liste</a>
