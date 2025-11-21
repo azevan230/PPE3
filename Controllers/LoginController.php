@@ -1,5 +1,5 @@
 <?php
-require_once 'model/UserModel.php';
+require_once 'Models/UserModel.php';
 
 // Contrôleur pour gérer la connexion utilisateur
 class LoginController {
