@@ -1,10 +1,10 @@
 <?php
 
-require_once 'models/Quai.class.php';
-require_once 'models/QuaiManager.class.php';
-require_once 'models/PosteAccostage.class.php';
-require_once 'models/PosteAccostageManager.class.php';
-require_once 'models/FretManager.class.php';
+require_once 'model/Quai.class.php';
+require_once 'model/QuaiManager.class.php';
+require_once 'model/PosteAccostage.class.php';
+require_once 'model/PosteAccostageManager.class.php';
+require_once 'model/FretManager.class.php';
 
 class QuaiController {
     private $quaiManager;
@@ -23,12 +23,12 @@ class QuaiController {
         try {
             $quais = $this->quaiManager->getAllQuais();
             
-            require 'views/quais.php';
+            require 'view/quais.php';
             
         } catch (Exception $e) {
             error_log("Erreur dans listeQuais: " . $e->getMessage());
             $_SESSION['erreur'] = "Erreur lors du chargement des quais: " . $e->getMessage();
-            require 'views/quais.php';
+            require 'view/quais.php';
         }
     }
 
@@ -61,7 +61,7 @@ class QuaiController {
                 ];
             }
             
-            require 'views/postes.php';
+            require 'view/postes.php';
             
         } catch (Exception $e) {
             error_log("Erreur dans listePostes: " . $e->getMessage());
@@ -112,7 +112,7 @@ class QuaiController {
         
         $quai = null;
         $typesFretQuai = [];
-        require 'views/form_quai.php';
+        require 'view/form_quai.php';
     }
 
     public function modifierQuai() {
@@ -166,7 +166,7 @@ class QuaiController {
                 }
             }
 
-            require 'views/form_quai.php';
+            require 'view/form_quai.php';
             
         } catch (Exception $e) {
             error_log("Erreur dans modifierQuai: " . $e->getMessage());
@@ -224,7 +224,7 @@ class QuaiController {
                 }
             }
 
-            require 'views/form_poste.php';
+            require 'view/form_poste.php';
             
         } catch (Exception $e) {
             error_log("Erreur dans creerPoste: " . $e->getMessage());
