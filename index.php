@@ -4,9 +4,9 @@ session_start(); // Démarrer la session dès le début
 require_once "controller/EmployeController.php";
 require_once "controller/EscaleController.php";
 require_once "controller/NavireController.php";
+require_once "controller/ArmateurController.php";
 require_once 'controller/LoginController.php';
 require_once 'model/SessionModel.php';
-require_once 'config/config.php';
 
 $page = $_GET['page'] ?? "login";
 
@@ -24,9 +24,6 @@ if (!$sessionModel->isLoggedIn() && $page !== 'login') {
     header('Location: index.php?page=login');
     exit;
 }
-
-$database = new Database();
-$db = $database->getInstance();
 
 switch ($page) {
     case "login":
@@ -94,45 +91,65 @@ switch ($page) {
         supprimerNavire((int)$_GET['id_navire']);
         break;
 
+    // ---------------- ARMATEURS ----------------
+    case "armateurs":
+        afficherArmateurs();
+        break;
+    case "armateur_create":
+        creerArmateur();
+        break;
+    case "armateur_details":
+        if (!isset($_GET['id_armateur'])) die("ID armateur manquant");
+        afficherArmateur((int)$_GET['id_armateur']);
+        break;
+    case "armateur_modifier":
+        if (!isset($_GET['id_armateur'])) die("ID armateur manquant");
+        modifierArmateur((int)$_GET['id_armateur']);
+        break;
+    case "armateur_supprimer":
+        if (!isset($_GET['id_armateur'])) die("ID armateur manquant");
+        supprimerArmateur((int)$_GET['id_armateur']);
+        break;
+
     // ---------------- QUAIS ----------------
     case "quais":
-        require_once 'controller/QuaiController.class.php';
+        require_once 'controllers/QuaiController.class.php';
         $controller = new QuaiController($db);
         $controller->listeQuais();
         break;
         
     case "postes":
-        require_once 'controller/QuaiController.class.php';
+        require_once 'controllers/QuaiController.class.php';
         $controller = new QuaiController($db);
         $controller->listePostes();
         break;
         
     case "creer_quai":
-        require_once 'controller/QuaiController.class.php';
+        require_once 'controllers/QuaiController.class.php';
         $controller = new QuaiController($db);
         $controller->creerQuai();
         break;
         
     case "modifier_quai":
-        require_once 'controller/QuaiController.class.php';
+        require_once 'controllers/QuaiController.class.php';
         $controller = new QuaiController($db);
         $controller->modifierQuai();
         break;
         
     case "supprimer_quai":
-        require_once 'controller/QuaiController.class.php';
+        require_once 'controllers/QuaiController.class.php';
         $controller = new QuaiController($db);
         $controller->supprimerQuai();
         break;
         
     case "creer_poste":
-        require_once 'controller/QuaiController.class.php';
+        require_once 'controllers/QuaiController.class.php';
         $controller = new QuaiController($db);
         $controller->creerPoste();
         break;
         
     case "supprimer_poste":
-        require_once 'controller/QuaiController.class.php';
+        require_once 'controllers/QuaiController.class.php';
         $controller = new QuaiController($db);
         $controller->supprimerPoste();
         break;

@@ -105,7 +105,7 @@
         <!-- Première ligne avec 3 divs -->
         <div class="row">
             <a href="index.php?page=navires" class="clickable-div">Gestion des navires</a>
-            <a href="page2.html" class="clickable-div">Gestion des armateurs</a>
+            <a href="index.php?page=armateurs" class="clickable-div">Gestion des armateurs</a>
             <a href="index.php?page=escales" class="clickable-div">Gestion des demandes d'escales</a>
         </div>
         
