@@ -111,7 +111,7 @@
         
         <!-- Deuxième ligne avec 3 divs -->
         <div class="row">
-            <a href="index.php?page=infrastructures" class="clickable-div">Gestion des infrastructures</a>
+            <a href="index.php?page=quais" class="clickable-div">Gestion des infrastructures</a>
             <a href="index.php?page=employes" class="clickable-div">Gestion des employés</a>
             <a href="index.php?page=escales" class="clickable-div">Gestion des escales</a>
         </div>

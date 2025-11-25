@@ -6,6 +6,7 @@ require_once "controller/EscaleController.php";
 require_once "controller/NavireController.php";
 require_once 'controller/LoginController.php';
 require_once 'model/SessionModel.php';
+require_once 'config/config.php';
 
 $page = $_GET['page'] ?? "login";
 
@@ -23,6 +24,9 @@ if (!$sessionModel->isLoggedIn() && $page !== 'login') {
     header('Location: index.php?page=login');
     exit;
 }
+
+$database = new Database();
+$db = $database->getInstance();
 
 switch ($page) {
     case "login":
@@ -91,7 +95,7 @@ switch ($page) {
         break;
 
     // ---------------- QUAIS ----------------
-    case "infrastructures":
+    case "quais":
         require_once 'controller/QuaiController.class.php';
         $controller = new QuaiController($db);
         $controller->listeQuais();
