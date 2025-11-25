@@ -20,9 +20,12 @@ function creerArmateur() {
         
         // Validation basique
         if (!empty($nom)) {
-            insertArmateur($nom, $prenom, $adresse);
-            header('Location: index.php?page=armateurs&success=Armateur créé avec succès');
-            exit;
+            if (insertArmateur($nom, $prenom, $adresse)) {
+                header('Location: index.php?page=armateurs&success=' . urlencode('Armateur créé avec succès'));
+                exit;
+            } else {
+                $error = 'Erreur lors de la création de l\'armateur';
+            }
         } else {
             $error = 'Le nom de l\'armateur est obligatoire';
         }
@@ -39,7 +42,7 @@ function afficherArmateur($id_armateur) {
     $armateur = getArmateurById($id_armateur);
     
     if (!$armateur) {
-        header('Location: index.php?page=armateurs&error=Armateur non trouvé');
+        header('Location: index.php?page=armateurs&error=' . urlencode('Armateur non trouvé'));
         exit;
     }
     
@@ -54,7 +57,7 @@ function modifierArmateur($id_armateur) {
     $success = '';
     
     if (!$armateur) {
-        header('Location: index.php?page=armateurs&error=Armateur non trouvé');
+        header('Location: index.php?page=armateurs&error=' . urlencode('Armateur non trouvé'));
         exit;
     }
     
@@ -64,9 +67,12 @@ function modifierArmateur($id_armateur) {
         $adresse = trim($_POST['adresse'] ?? '');
         
         if (!empty($nom)) {
-            updateArmateur($id_armateur, $nom, $prenom, $adresse);
-            header('Location: index.php?page=armateur_details&id_armateur=' . $id_armateur . '&success=Armateur modifié avec succès');
-            exit;
+            if (updateArmateur($id_armateur, $nom, $prenom, $adresse)) {
+                header('Location: index.php?page=armateur_details&id_armateur=' . $id_armateur . '&success=' . urlencode('Armateur modifié avec succès'));
+                exit;
+            } else {
+                $error = 'Erreur lors de la modification de l\'armateur';
+            }
         } else {
             $error = 'Le nom de l\'armateur est obligatoire';
         }
@@ -78,8 +84,20 @@ function modifierArmateur($id_armateur) {
 
 // Fonction pour supprimer un armateur
 function supprimerArmateur($id_armateur) {
-    deleteArmateur($id_armateur);
-    header('Location: index.php?page=armateurs&success=Armateur supprimé avec succès');
+    // Vérifier si l'armateur existe
+    $armateur = getArmateurById($id_armateur);
+    
+    if (!$armateur) {
+        header('Location: index.php?page=armateurs&error=' . urlencode('Armateur non trouvé'));
+        exit;
+    }
+    
+    // Supprimer l'armateur
+    if (deleteArmateur($id_armateur)) {
+        header('Location: index.php?page=armateurs&success=' . urlencode('Armateur supprimé avec succès'));
+    } else {
+        header('Location: index.php?page=armateurs&error=' . urlencode('Erreur lors de la suppression'));
+    }
     exit;
 }
 ?>
