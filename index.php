@@ -91,7 +91,7 @@ switch ($page) {
         break;
 
     // ---------------- QUAIS ----------------
-    case "quais":
+    case "infrastructures":
         require_once 'controller/QuaiController.class.php';
         $controller = new QuaiController($db);
         $controller->listeQuais();
