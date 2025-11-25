@@ -10,70 +10,12 @@ require_once 'config/config.php';
 
 $page = $_GET['page'] ?? "login";
 
-<<<<<<< HEAD
-// Gestion des routes
-$page = isset($_GET['page']) ? $_GET['page'] : 'quais';
-
-try {
-    switch($page) {
-        case 'quais':
-            require_once 'controller/QuaiController.class.php';
-            $controller = new QuaiController($db);
-            $controller->listeQuais();
-            break;
-            
-        case 'postes':
-            require_once 'controller/QuaiController.class.php';
-            $controller = new QuaiController($db);
-            $controller->listePostes();
-            break;
-            
-        case 'creer_quai':
-            require_once 'controller/QuaiController.class.php';
-            $controller = new QuaiController($db);
-            $controller->creerQuai();
-            break;
-            
-        case 'modifier_quai':
-            require_once 'controller/QuaiController.class.php';
-            $controller = new QuaiController($db);
-            $controller->modifierQuai();
-            break;
-            
-        case 'supprimer_quai':
-            require_once 'controller/QuaiController.class.php';
-            $controller = new QuaiController($db);
-            $controller->supprimerQuai();
-            break;
-            
-        case 'creer_poste':
-            require_once 'controller/QuaiController.class.php';
-            $controller = new QuaiController($db);
-            $controller->creerPoste();
-            break;
-            
-        case 'supprimer_poste':
-            require_once 'controller/QuaiController.class.php';
-            $controller = new QuaiController($db);
-            $controller->supprimerPoste();
-            break;
-            
-        default:
-            require_once 'controller/QuaiController.class.php';
-            $controller = new QuaiController($db);
-            $controller->listeQuais();
-            break;
-    }
-} catch (Exception $e) {
-    echo "Erreur : " . $e->getMessage();
-=======
 // Gestion de la déconnexion
 if (isset($_POST['action']) && $_POST['action'] === 'logout') {
     $sessionModel = new SessionModel();
     $sessionModel->destroySession();
     header('Location: index.php?page=login');
     exit;
->>>>>>> Main2
 }
 
 // Si pas connecté et pas sur la page login, rediriger vers login

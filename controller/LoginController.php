@@ -1,9 +1,6 @@
 <?php
 require_once 'model/UserModel.php';
-<<<<<<< HEAD
-=======
 require_once __DIR__ . '/../model/Navire.php'; // modèle Navire (doit implémenter getAll())
->>>>>>> Main2
 
 class LoginController {
 
