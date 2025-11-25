@@ -7,6 +7,7 @@ require_once "controller/NavireController.php";
 require_once "controller/ArmateurController.php";
 require_once 'controller/LoginController.php';
 require_once 'model/SessionModel.php';
+require_once "Config/config.php";
 
 $page = $_GET['page'] ?? "login";
 
@@ -24,6 +25,9 @@ if (!$sessionModel->isLoggedIn() && $page !== 'login') {
     header('Location: index.php?page=login');
     exit;
 }
+
+$database = new Database();
+$db = $database->getInstance();
 
 switch ($page) {
     case "login":
