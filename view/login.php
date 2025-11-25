@@ -3,23 +3,16 @@
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Connexion</title>
-    <script>
-        // Script inutile ici, mais gardé pour compatibilité
-        window.onload = function() {
-            document.getElementById('login-btn').onclick = function() {
-                hideRegisterFields();
-            };
-        };
-    </script>
-</head>
-<body>
+<style>
+    .login{
+        margin-top: 5%;
+        margin-left: 40%;
+    }
+</style>
+
+<div class="login">
     <h2>Connexion</h2>
-    <!-- Affiche le message d'erreur si besoin -->
-    <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
-    <!-- Affiche le message de succès si besoin -->
-    <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
+    
     <!-- Formulaire de connexion -->
     <form method="post">
         <label>Login :</label>
@@ -28,5 +21,5 @@
         <input type="password" name="password" required><br>
         <button type="submit" name="login" id="login-btn">Se connecter</button>
     </form>
-</body>
+</div>
 </html>
