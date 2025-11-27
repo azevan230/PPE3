@@ -1,60 +1,70 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Créer un nouveau navire</title>
-<style>
-    body { font-family: Arial; background:#f8f9fa; margin:40px; }
-    form { width: 50%; margin:auto; background:white; padding:20px; border-radius:8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    label { display:block; margin-top:15px; font-weight:bold; }
-    input, select { width:100%; padding:8px; margin-top:5px; border:1px solid #ccc; border-radius:4px; }
-    button { margin-top:20px; padding:10px 15px; background:#007bff; color:white; border:none; border-radius:4px; cursor:pointer; }
-</style>
-</head>
-<body>
+<!-- view/navire_create.php -->
+<h2>Créer un nouveau navire</h2>
 
-<h2 style="text-align:center;color:#003366;">Créer un nouveau navire</h2>
+<?php if (!empty($error)): ?>
+    <div class="error-message">
+        <?= htmlspecialchars($error) ?>
+    </div>
+<?php endif; ?>
 
-<form method="POST">
-    <label>Nom :</label>
-    <input type="text" name="nom" required>
+<form method="POST" action="index.php?page=navire_create">
+    
+    <label for="nom">Nom du navire * :</label>
+    <input type="text" id="nom" name="nom" required>
 
-    <label>Autorisé :</label>
-    <select name="autorise" required>
-        <option value="Oui">Oui</option>
-        <option value="Non">Non</option>
+    <label for="autorise">Autorisé :</label>
+    <input type="checkbox" id="autorise" name="autorise" value="1">
+
+    <label for="longueur">Longueur (m) :</label>
+    <input type="number" id="longueur" name="longueur" step="0.1" min="0">
+
+    <label for="largeur">Largeur (m) :</label>
+    <input type="number" id="largeur" name="largeur" step="0.1" min="0">
+
+    <label for="tirant_eau">Tirant d'eau (m) :</label>
+    <input type="number" id="tirant_eau" name="tirant_eau" step="0.1" min="0">
+
+    <label for="capacite">Capacité (t) :</label>
+    <input type="number" id="capacite" name="capacite" step="0.1" min="0">
+
+    <label for="propulseur">Propulseur :</label>
+    <input type="checkbox" id="propulseur" name="propulseur" value="1">
+
+    <label for="remorqueur">Remorqueur :</label>
+    <input type="checkbox" id="remorqueur" name="remorqueur" value="1">
+
+    <label for="id_fret">Type de fret :</label>
+    <select id="id_fret" name="id_fret">
+        <option value="">-- Sélectionner un fret --</option>
+        <?php foreach ($frets as $fret): ?>
+            <option value="<?= $fret['id_fret'] ?>">
+                <?= htmlspecialchars($fret['type']) ?> - <?= htmlspecialchars($fret['libelle']) ?>
+            </option>
+        <?php endforeach; ?>
     </select>
 
-    <label>Longueur :</label>
-    <input type="number" name="longueur" step="0.01" required>
+    <label for="id_armateur">Armateur :</label>
+    <select id="id_armateur" name="id_armateur">
+        <option value="">-- Sélectionner un armateur --</option>
+        <?php foreach ($armateurs as $armateur): ?>
+            <option value="<?= $armateur['id'] ?>">
+                <?= htmlspecialchars($armateur['nom']) ?> <?= htmlspecialchars($armateur['prenom']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Largeur :</label>
-    <input type="number" name="largeur" step="0.01" required>
+    <label for="id_port">Port d'attache :</label>
+    <select id="id_port" name="id_port">
+        <option value="">-- Sélectionner un port --</option>
+        <?php foreach ($ports as $port): ?>
+            <option value="<?= $port['id_port'] ?>">
+                <?= htmlspecialchars($port['nom']) ?> - <?= htmlspecialchars($port['ville']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Tirant d'eau :</label>
-    <input type="number" name="tirant_eau" step="0.01" required>
-
-    <label>Capacité :</label>
-    <input type="number" name="capacite" required>
-
-    <label>Propulseur :</label>
-    <input type="text" name="propulseur">
-
-    <label>Remorqueur :</label>
-    <input type="text" name="remorqueur">
-
-    <label>ID Fret :</label>
-    <input type="number" name="id_fret">
-
-    <label>ID Port :</label>
-    <input type="number" name="id_port">
-
-    <button type="submit">Créer</button>
+    <div class="form-actions">
+        <button type="submit">Créer le navire</button>
+        <a href="index.php?page=navires">Annuler</a>
+    </div>
 </form>
-
-<div style="text-align:center;margin-top:20px;">
-    <a href="index.php?page=navires" style="text-decoration:none;color:#007bff;">Retour à la liste des navires</a>
-</div>
-
-</body>
-</html>
