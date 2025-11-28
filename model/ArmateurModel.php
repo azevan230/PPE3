@@ -23,7 +23,7 @@ function getConnexionArmateur() {
 // Récupérer tous les armateurs
 function getArmateurs() {
     $pdo = getConnexionArmateur();
-    $stmt = $pdo->query("SELECT * FROM armateur ORDER BY nom, prenom");
+    $stmt = $pdo->query("SELECT * FROM armateur ORDER BY id");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
