@@ -11,8 +11,8 @@ class UserModel {
     // Vérifie les identifiants de connexion pour la table 'utilisateur'
     // $login : identifiant saisi
     // $mdp : mot de passe saisi
+    
     public function checkLogin($login, $mdp) {
-        // Prépare la requête pour récupérer l'utilisateur selon le login
         $stmt = $this->pdo->prepare("SELECT * FROM utilisateur WHERE login = ?");
         $stmt->execute([$login]);
         $user = $stmt->fetch();

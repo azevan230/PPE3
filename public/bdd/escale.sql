@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 10 oct. 2025 à 14:24
+-- Généré le : mar. 07 avr. 2026 à 12:52
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -72,19 +72,20 @@ CREATE TABLE `employee` (
   `id_employee` int(11) NOT NULL,
   `nom` varchar(50) DEFAULT NULL,
   `prenom` varchar(50) DEFAULT NULL,
-  `num_tel` int(11) DEFAULT NULL
+  `num_tel` varchar(20) DEFAULT NULL,
+  `role` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `employee`
 --
 
-INSERT INTO `employee` (`id_employee`, `nom`, `prenom`, `num_tel`) VALUES
-(1, 'Moreau', 'Thomas', 612345678),
-(2, 'Petit', 'Marie', 623456789),
-(3, 'Durand', 'Luc', 634567890),
-(4, 'Leroy', 'Paul', 645678901),
-(5, 'Simon', 'Julie', 656789012);
+INSERT INTO `employee` (`id_employee`, `nom`, `prenom`, `num_tel`, `role`) VALUES
+(1, 'Moreau', 'Thomas', '0612345678', 'docker'),
+(2, 'Petit', 'Marie', '0623456789', 'pilote'),
+(3, 'Durand', 'Luc', '0634567890', 'docker'),
+(4, 'Leroy', 'Paul', '064567890', 'docker'),
+(5, 'Simoa', 'Juli', '000000000', 'docker');
 
 -- --------------------------------------------------------
 
@@ -111,7 +112,11 @@ CREATE TABLE `escale` (
 INSERT INTO `escale` (`id_escale`, `date_arrive`, `date_depart`, `id_fret`, `id_employee`, `id_employee_1`, `id_employee_2`, `id_poste_accostage`, `id_navire`) VALUES
 (1, '2025-10-01', '2025-10-03', 1, 1, 4, 5, 1, 1),
 (2, '2025-10-02', '2025-10-04', 2, 2, 4, 4, 3, 2),
-(3, '2025-10-03', '2025-10-05', 3, 3, 5, 4, 2, 3);
+(3, '2025-11-05', '2025-11-06', 2, 2, 4, 5, 2, 3),
+(4, '2025-10-30', '2025-10-31', 3, 2, 4, 4, 2, 2),
+(6, '2025-10-29', '2025-11-15', 4, 2, 5, 5, 2, 4),
+(7, '2025-11-13', '2025-11-16', 2, 3, 4, 4, 1, 2),
+(8, '2025-10-31', '2025-10-31', 2, 2, 4, 5, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -311,13 +316,6 @@ CREATE TABLE `utilisateur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `utilisateur`
---
-
-INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `login`, `mdp`, `date_creation`, `id_role`) VALUES
-(2, 'Admin', 'Principal', 'admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', '2025-10-10', 1);
-
---
 -- Index pour les tables déchargées
 --
 
@@ -417,6 +415,18 @@ ALTER TABLE `utilisateur`
 --
 
 --
+-- AUTO_INCREMENT pour la table `employee`
+--
+ALTER TABLE `employee`
+  MODIFY `id_employee` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT pour la table `escale`
+--
+ALTER TABLE `escale`
+  MODIFY `id_escale` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT pour la table `role`
 --
 ALTER TABLE `role`
@@ -426,7 +436,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Contraintes pour les tables déchargées
