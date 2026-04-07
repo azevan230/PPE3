@@ -7,7 +7,7 @@ require_once "controller/NavireController.php";
 require_once "controller/ArmateurController.php";
 require_once 'controller/LoginController.php';
 require_once 'model/SessionModel.php';
-require_once "Config/config.php";
+require_once "config/config.php";
 
 $page = $_GET['page'] ?? "login";
 
