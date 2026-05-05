@@ -1,76 +1,57 @@
 <?php
-// Fonction pour obtenir la connexion PDO
-function getConnexionArmateur() {
-    static $pdo = null;
-    
-    if ($pdo === null) {
-        try {
-            $dsn = 'mysql:host=localhost;dbname=escale;charset=utf8mb4';
-            $options = [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ];
-            $pdo = new PDO($dsn, 'root', '', $options);
-        } catch (PDOException $e) {
-            die('Erreur de connexion à la base de données : ' . $e->getMessage());
-        }
-    }
-    
-    return $pdo;
-}
 
-// Récupérer tous les armateurs
+require_once __DIR__ . '/Connexion.php'; // connexion unique via getConnexion()
+
+// ─── Lire ──────────────────────────────────────────────────────────────────
+
 function getArmateurs() {
-    $pdo = getConnexionArmateur();
-    $stmt = $pdo->query("SELECT * FROM armateur ORDER BY id");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $pdo = getConnexion();
+    return $pdo->query("SELECT * FROM armateur ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Récupérer un armateur par son ID
-function getArmateurById($id_armateur) {
-    $pdo = getConnexionArmateur();
+function getArmateurById($id) {
+    $pdo  = getConnexion();
     $stmt = $pdo->prepare("SELECT * FROM armateur WHERE id = ?");
-    $stmt->execute([$id_armateur]);
+    $stmt->execute([$id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// Insérer un nouvel armateur
-function insertArmateur($nom, $prenom, $adresse) {
-    $pdo = getConnexionArmateur();
+// ─── Créer ─────────────────────────────────────────────────────────────────
+
+function insertArmateur($nom, $prenom, $adresse, $tel) {
+    $pdo  = getConnexion();
     $stmt = $pdo->prepare("
-        INSERT INTO armateur (nom, prenom, adresse) 
-        VALUES (?, ?, ?)
+        INSERT INTO armateur (nom, prenom, adresse, tel)
+        VALUES (?, ?, ?, ?)
     ");
-    return $stmt->execute([$nom, $prenom, $adresse]);
+    return $stmt->execute([$nom, $prenom, $adresse, $tel]);
 }
 
-// Mettre à jour un armateur
-function updateArmateur($id_armateur, $nom, $prenom, $adresse) {
-    $pdo = getConnexionArmateur();
+// ─── Modifier ──────────────────────────────────────────────────────────────
+
+function updateArmateur($id, $nom, $prenom, $adresse, $tel) {
+    $pdo  = getConnexion();
     $stmt = $pdo->prepare("
-        UPDATE armateur SET 
-        nom = ?, 
-        prenom = ?, 
-        adresse = ?
+        UPDATE armateur
+        SET nom = ?, prenom = ?, adresse = ?, tel = ?
         WHERE id = ?
     ");
-    return $stmt->execute([$nom, $prenom, $adresse, $id_armateur]);
+    return $stmt->execute([$nom, $prenom, $adresse, $tel, $id]);
 }
 
-// Supprimer un armateur
-function deleteArmateur($id_armateur) {
-    $pdo = getConnexionArmateur();
+// ─── Supprimer ─────────────────────────────────────────────────────────────
+
+function deleteArmateur($id) {
+    $pdo  = getConnexion();
     $stmt = $pdo->prepare("DELETE FROM armateur WHERE id = ?");
-    return $stmt->execute([$id_armateur]);
+    return $stmt->execute([$id]);
 }
 
-// Compter le nombre de navires d'un armateur
-function countNaviresByArmateur($id_armateur) {
-    $pdo = getConnexionArmateur();
-    $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM navire WHERE id = ?");
-    $stmt->execute([$id_armateur]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result['total'];
+// ─── Utilitaire ────────────────────────────────────────────────────────────
+
+function countNaviresByArmateur($id) {
+    $pdo  = getConnexion();
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM navire WHERE id = ?");
+    $stmt->execute([$id]);
+    return (int) $stmt->fetchColumn();
 }
-?>
