@@ -21,22 +21,22 @@ function getArmateurById($id) {
 function insertArmateur($nom, $prenom, $adresse, $tel) {
     $pdo  = getConnexion();
     $stmt = $pdo->prepare("
-        INSERT INTO armateur (nom, prenom, adresse, tel)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO armateur (nom, adresse, tel)
+        VALUES (?, ?, ?)
     ");
-    return $stmt->execute([$nom, $prenom, $adresse, $tel]);
+    return $stmt->execute([$nom, $adresse, $tel]);
 }
 
 // ─── Modifier ──────────────────────────────────────────────────────────────
 
-function updateArmateur($id, $nom, $prenom, $adresse, $tel) {
+function updateArmateur($id, $nom, $adresse, $tel) {
     $pdo  = getConnexion();
     $stmt = $pdo->prepare("
         UPDATE armateur
-        SET nom = ?, prenom = ?, adresse = ?, tel = ?
+        SET nom = ?, adresse = ?, tel = ?
         WHERE id = ?
     ");
-    return $stmt->execute([$nom, $prenom, $adresse, $tel, $id]);
+    return $stmt->execute([$nom, $adresse, $tel, $id]);
 }
 
 // ─── Supprimer ─────────────────────────────────────────────────────────────
