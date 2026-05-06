@@ -2,6 +2,11 @@
 
 require_once __DIR__ . '/../model/ArmateurModel.php';
 
+// =============================================================================
+// CONTRÔLEUR ARMATEUR — V2
+// L'armateur est une SOCIÉTÉ : plus de prenom, ajout de mail
+// =============================================================================
+
 // ─── Liste ─────────────────────────────────────────────────────────────────
 
 function afficherArmateurs() {
@@ -24,20 +29,20 @@ function afficherArmateur($id_armateur) {
 // ─── Créer ─────────────────────────────────────────────────────────────────
 
 function creerArmateur() {
-    $error   = '';
+    $error    = '';
     $armateur = null;
-    $action  = 'create';
+    $action   = 'create';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $nom    = trim($_POST['nom']    ?? '');
-        $prenom = trim($_POST['prenom'] ?? '');
-        $adresse= trim($_POST['adresse']?? '');
-        $tel    = trim($_POST['tel']    ?? '');
+        $nom     = trim($_POST['nom']     ?? '');
+        $adresse = trim($_POST['adresse'] ?? '');
+        $tel     = trim($_POST['tel']     ?? '');
+        $mail    = trim($_POST['mail']    ?? '');
 
         if (empty($nom)) {
-            $error = 'Le nom de l\'armateur est obligatoire';
+            $error = 'La raison sociale de l\'armateur est obligatoire';
         } else {
-            if (insertArmateur($nom, $prenom, $adresse, $tel)) {
+            if (insertArmateur($nom, $adresse, $tel, $mail ?: null)) {
                 header('Location: index.php?page=armateurs&success=' . urlencode('Armateur créé avec succès'));
                 exit;
             } else {
@@ -62,15 +67,15 @@ function modifierArmateur($id_armateur) {
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $nom    = trim($_POST['nom']    ?? '');
-        $prenom = trim($_POST['prenom'] ?? '');
-        $adresse= trim($_POST['adresse']?? '');
-        $tel    = trim($_POST['tel']    ?? '');
+        $nom     = trim($_POST['nom']     ?? '');
+        $adresse = trim($_POST['adresse'] ?? '');
+        $tel     = trim($_POST['tel']     ?? '');
+        $mail    = trim($_POST['mail']    ?? '');
 
         if (empty($nom)) {
-            $error = 'Le nom de l\'armateur est obligatoire';
+            $error = 'La raison sociale de l\'armateur est obligatoire';
         } else {
-            if (updateArmateur($id_armateur, $nom, $prenom, $adresse, $tel)) {
+            if (updateArmateur($id_armateur, $nom, $adresse, $tel, $mail ?: null)) {
                 header('Location: index.php?page=armateur_details&id_armateur=' . $id_armateur . '&success=' . urlencode('Armateur modifié avec succès'));
                 exit;
             } else {
@@ -87,6 +92,12 @@ function modifierArmateur($id_armateur) {
 function supprimerArmateur($id_armateur) {
     if (!getArmateurById($id_armateur)) {
         header('Location: index.php?page=armateurs&error=' . urlencode('Armateur non trouvé'));
+        exit;
+    }
+
+    // Empêcher la suppression si l'armateur a encore des navires
+    if (countNaviresByArmateur($id_armateur) > 0) {
+        header('Location: index.php?page=armateurs&error=' . urlencode('Impossible : cet armateur a encore des navires'));
         exit;
     }
 

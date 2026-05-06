@@ -13,7 +13,7 @@
         h1 { color: #333; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-        input[type="text"], input[type="tel"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
+        input[type="text"], input[type="tel"], input[type="email"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
         input:focus { outline: none; border-color: #667eea; }
         .btn-group { display: flex; gap: 10px; margin-top: 30px; }
         .btn { padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; border: none; cursor: pointer; transition: all 0.3s; }
@@ -29,6 +29,9 @@
         .info-group { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
         .info-label { font-weight: bold; color: #555; margin-bottom: 5px; }
         .info-value { color: #333; font-size: 16px; }
+        .badge-account { display: inline-block; padding: 4px 10px; border-radius: 12px; background: #d4edda; color: #155724; font-size: 0.85em; font-weight: bold; }
+        .badge-no-account { display: inline-block; padding: 4px 10px; border-radius: 12px; background: #f8d7da; color: #721c24; font-size: 0.85em; font-weight: bold; }
+        .help-text { color: #888; font-size: 0.85em; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -47,23 +50,25 @@
             <div class="info-label">ID</div>
             <div class="info-value"><?= htmlspecialchars($armateur['id']) ?></div>
         </div>
+
         <div class="info-group">
-            <div class="info-label">Nom</div>
+            <div class="info-label">Raison sociale</div>
             <div class="info-value"><?= htmlspecialchars($armateur['nom']) ?></div>
         </div>
-        <div class="info-group">
-            <div class="info-label">Prénom</div>
-            <div class="info-value"><?= htmlspecialchars($armateur['prenom'] ?? '-') ?></div>
-        </div>
+
         <div class="info-group">
             <div class="info-label">Adresse</div>
             <div class="info-value"><?= htmlspecialchars($armateur['adresse'] ?? '-') ?></div>
         </div>
 
-        <!-- ── CHAMP TEL ajouté (exigé par le CDC) ───────────────────── -->
         <div class="info-group">
             <div class="info-label">Téléphone</div>
             <div class="info-value"><?= htmlspecialchars($armateur['tel'] ?? '-') ?></div>
+        </div>
+
+        <div class="info-group">
+            <div class="info-label">Email</div>
+            <div class="info-value"><?= htmlspecialchars($armateur['mail'] ?? '-') ?></div>
         </div>
 
         <?php $nbNavires = countNaviresByArmateur($armateur['id']); ?>
@@ -71,6 +76,18 @@
             <div class="info-label">Navires</div>
             <div class="info-value">
                 <?= $nbNavires > 0 ? $nbNavires . ' navire' . ($nbNavires > 1 ? 's' : '') : 'Aucun navire' ?>
+            </div>
+        </div>
+
+        <?php $nbComptes = function_exists('countUtilisateursByArmateur') ? countUtilisateursByArmateur($armateur['id']) : 0; ?>
+        <div class="info-group">
+            <div class="info-label">Compte mobile</div>
+            <div class="info-value">
+                <?php if ($nbComptes > 0): ?>
+                    <span class="badge-account">✓ <?= $nbComptes ?> compte<?= $nbComptes > 1 ? 's' : '' ?> actif<?= $nbComptes > 1 ? 's' : '' ?></span>
+                <?php else: ?>
+                    <span class="badge-no-account">Aucun compte</span>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -91,29 +108,32 @@
         <form method="POST">
 
             <div class="form-group">
-                <label for="nom">Nom *</label>
+                <label for="nom">Raison sociale *</label>
                 <input type="text" id="nom" name="nom"
-                       value="<?= htmlspecialchars($armateur['nom'] ?? '') ?>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="prenom">Prénom</label>
-                <input type="text" id="prenom" name="prenom"
-                       value="<?= htmlspecialchars($armateur['prenom'] ?? '') ?>">
+                       value="<?= htmlspecialchars($armateur['nom'] ?? '') ?>" required
+                       placeholder="ex : Briese Schiffahrts GmbH & Co. KG">
+                <div class="help-text">Nom officiel de la société armateur</div>
             </div>
 
             <div class="form-group">
                 <label for="adresse">Adresse</label>
                 <input type="text" id="adresse" name="adresse"
-                       value="<?= htmlspecialchars($armateur['adresse'] ?? '') ?>">
+                       value="<?= htmlspecialchars($armateur['adresse'] ?? '') ?>"
+                       placeholder="ex : Hafenweg 22, Leer">
             </div>
 
-            <!-- ── CHAMP TEL ajouté (exigé par le CDC) ─────────────── -->
             <div class="form-group">
                 <label for="tel">Téléphone</label>
                 <input type="tel" id="tel" name="tel"
                        value="<?= htmlspecialchars($armateur['tel'] ?? '') ?>"
                        placeholder="ex : 0546123456">
+            </div>
+
+            <div class="form-group">
+                <label for="mail">Email</label>
+                <input type="email" id="mail" name="mail"
+                       value="<?= htmlspecialchars($armateur['mail'] ?? '') ?>"
+                       placeholder="ex : contact@armateur.fr">
             </div>
 
             <div class="btn-group">
