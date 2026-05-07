@@ -68,7 +68,7 @@ function getAllFrets() {
 // Récupérer tous les armateurs pour les listes déroulantes
 function getAllArmateurs() {
     $pdo = getConnexion();
-    $stmt = $pdo->query("SELECT id, nom, prenom FROM armateur ORDER BY nom");
+    $stmt = $pdo->query("SELECT id, nom, tel FROM armateur ORDER BY nom");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 

@@ -36,26 +36,17 @@ function getArmateurById($id_armateur) {
 }
 
 // Insérer un nouvel armateur
-function insertArmateur($nom, $prenom, $adresse) {
+function insertArmateur($nom, $adresse) {
     $pdo = getConnexionArmateur();
-    $stmt = $pdo->prepare("
-        INSERT INTO armateur (nom, prenom, adresse) 
-        VALUES (?, ?, ?)
-    ");
-    return $stmt->execute([$nom, $prenom, $adresse]);
+    $stmt = $pdo->prepare("INSERT INTO armateur (nom, adresse) VALUES (?, ?)");
+    return $stmt->execute([$nom, $adresse]);
 }
 
 // Mettre à jour un armateur
-function updateArmateur($id_armateur, $nom, $prenom, $adresse) {
+function updateArmateur($id_armateur, $nom, $adresse) {
     $pdo = getConnexionArmateur();
-    $stmt = $pdo->prepare("
-        UPDATE armateur SET 
-        nom = ?, 
-        prenom = ?, 
-        adresse = ?
-        WHERE id = ?
-    ");
-    return $stmt->execute([$nom, $prenom, $adresse, $id_armateur]);
+    $stmt = $pdo->prepare("UPDATE armateur SET nom = ?, adresse = ? WHERE id = ?");
+    return $stmt->execute([$nom, $adresse, $id_armateur]);
 }
 
 // Supprimer un armateur

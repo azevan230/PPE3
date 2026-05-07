@@ -360,7 +360,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nom</th>
-                            <th>Prénom</th>
+                            <th>Téléphone</th>
                             <th>Adresse</th>
                             <th>Navires</th>
                             <th>Actions</th>
@@ -376,7 +376,7 @@
                             <tr>
                                 <td><?= htmlspecialchars($armateur['id']) ?></td>
                                 <td><strong><?= htmlspecialchars($armateur['nom']) ?></strong></td>
-                                <td><?= htmlspecialchars($armateur['prenom'] ?? '-') ?></td>
+                                <td><?= htmlspecialchars($armateur['tel'] ?? '-') ?></td>
                                 <td><?= htmlspecialchars($armateur['adresse'] ?? '-') ?></td>
                                 <td>
                                     <?php if ($nbNavires > 0): ?>

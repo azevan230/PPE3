@@ -15,12 +15,11 @@ function creerArmateur() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Récupération et nettoyage des données
         $nom = trim($_POST['nom'] ?? '');
-        $prenom = trim($_POST['prenom'] ?? '');
         $adresse = trim($_POST['adresse'] ?? '');
-        
+
         // Validation basique
         if (!empty($nom)) {
-            if (insertArmateur($nom, $prenom, $adresse)) {
+            if (insertArmateur($nom, $adresse)) {
                 header('Location: index.php?page=armateurs&success=' . urlencode('Armateur créé avec succès'));
                 exit;
             } else {
@@ -63,11 +62,10 @@ function modifierArmateur($id_armateur) {
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nom = trim($_POST['nom'] ?? '');
-        $prenom = trim($_POST['prenom'] ?? '');
         $adresse = trim($_POST['adresse'] ?? '');
-        
+
         if (!empty($nom)) {
-            if (updateArmateur($id_armateur, $nom, $prenom, $adresse)) {
+            if (updateArmateur($id_armateur, $nom, $adresse)) {
                 header('Location: index.php?page=armateur_details&id_armateur=' . $id_armateur . '&success=' . urlencode('Armateur modifié avec succès'));
                 exit;
             } else {

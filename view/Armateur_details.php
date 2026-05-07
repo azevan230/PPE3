@@ -138,8 +138,8 @@
             </div>
 
             <div class="info-group">
-                <div class="info-label">Prénom</div>
-                <div class="info-value"><?= htmlspecialchars($armateur['prenom'] ?? '-') ?></div>
+                <div class="info-label">Téléphone</div>
+                <div class="info-value"><?= htmlspecialchars($armateur['tel'] ?? '-') ?></div>
             </div>
 
             <div class="info-group">
@@ -187,14 +187,6 @@
                            name="nom" 
                            value="<?= htmlspecialchars($armateur['nom'] ?? '') ?>" 
                            required>
-                </div>
-
-                <div class="form-group">
-                    <label for="prenom">Prénom</label>
-                    <input type="text" 
-                           id="prenom" 
-                           name="prenom" 
-                           value="<?= htmlspecialchars($armateur['prenom'] ?? '') ?>">
                 </div>
 
                 <div class="form-group">

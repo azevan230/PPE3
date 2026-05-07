@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout *)",
+      "Bash(rm \"mobile/app/src/main/java/com/example/myapplication/MainActivity.java\")",
+      "Bash(rm -rf \"mobile/app/src/androidTest/java/com/example/myapplication\")",
+      "Bash(rm -rf \"mobile/app/src/test/java/com/example/myapplication\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\laragon\\\\www\\\\PPE3\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(ipconfig)",
+      "Bash(findstr /i \"IPv4\")"
+    ]
+  }
+}

@@ -18,7 +18,7 @@ import okhttp3.Response;
 public class ApiClient {
 
     // ⚠️ Remplace par ton IP locale (ipconfig) ou 10.0.2.2 si émulateur
-    private static final String BASE_URL = "http://172.20.10.2/PPE3/api/index.php/";
+    private static final String BASE_URL = "http://172.16.4.80/PPE3/api/index.php/";
     private static final String PREFS_NAME = "ppe3_prefs";
     private static final String KEY_TOKEN = "token";
 
