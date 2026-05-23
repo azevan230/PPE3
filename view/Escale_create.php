@@ -88,8 +88,8 @@
     </select>
 
     <label>Pilote 2 (sortie) :</label>
-    <select name="id_pilote2" required>
-        <option value="">-- Sélectionner --</option>
+    <select name="id_pilote2">
+        <option value="">-- Optionnel (peut être affecté plus tard) --</option>
         <?php foreach ($pilotes as $p): ?>
             <option value="<?= $p['id_employee'] ?>"><?= htmlspecialchars($p['nom'] . ' ' . $p['prenom']) ?></option>
         <?php endforeach; ?>

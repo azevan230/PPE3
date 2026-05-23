@@ -71,9 +71,16 @@ public class MainActivity extends AppCompatActivity {
     // ── Remplit la ListView ────────────────────────────────────────────────
 
     private void afficherNavires() {
-        NavireAdapter adapter = new NavireAdapter(this, naviresList, (navire) -> {
-            // Callback quand on clique "Demander une escale"
-            ouvrirDialogueEscale(navire);
+        NavireAdapter adapter = new NavireAdapter(this, naviresList, new NavireAdapter.NavireActionListener() {
+            @Override
+            public void onDemande(JSONObject navire) {
+                ouvrirDialogueEscale(navire);
+            }
+
+            @Override
+            public void onClickItem(JSONObject navire) {
+                ouvrirDetailsNavire(navire);
+            }
         });
         listNavires.setAdapter(adapter);
     }
@@ -104,19 +111,35 @@ public class MainActivity extends AppCompatActivity {
         // Sélecteur date arrivée
         btnArrive.setOnClickListener(v -> {
             Calendar c = Calendar.getInstance();
-            new DatePickerDialog(this, (view, y, m, d) -> {
+            DatePickerDialog dp = new DatePickerDialog(this, (view, y, m, d) -> {
                 dateArrive[0] = String.format("%04d-%02d-%02d", y, m + 1, d);
                 txtArrive.setText(dateArrive[0]);
-            }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+                dateDepart[0] = ""; // reset si on rechange l'arrivée
+                txtDepart.setText("Non sélectionnée");
+            }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+            dp.getDatePicker().setMinDate(System.currentTimeMillis()); // bloque le passé
+            dp.show();
         });
 
         // Sélecteur date départ
         btnDepart.setOnClickListener(v -> {
+            if (dateArrive[0].isEmpty()) {
+                Toast.makeText(this, "Choisis d'abord la date d'arrivée", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Calendar c = Calendar.getInstance();
-            new DatePickerDialog(this, (view, y, m, d) -> {
+            // Parse la date d'arrivée pour fixer le min du départ
+            String[] parts = dateArrive[0].split("-");
+            Calendar minDep = Calendar.getInstance();
+            minDep.set(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
+            minDep.add(Calendar.DAY_OF_MONTH, 1); // au moins le lendemain
+
+            DatePickerDialog dp = new DatePickerDialog(this, (view, y, m, d) -> {
                 dateDepart[0] = String.format("%04d-%02d-%02d", y, m + 1, d);
                 txtDepart.setText(dateDepart[0]);
-            }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+            }, minDep.get(Calendar.YEAR), minDep.get(Calendar.MONTH), minDep.get(Calendar.DAY_OF_MONTH));
+            dp.getDatePicker().setMinDate(minDep.getTimeInMillis());
+            dp.show();
         });
 
         builder.setPositiveButton("Envoyer", (dialog, which) -> {
@@ -152,6 +175,83 @@ public class MainActivity extends AppCompatActivity {
 
         builder.setNegativeButton("Annuler", null);
         builder.show();
+    }
+
+    // ── Dialogue de détails du navire ──────────────────────────────────────
+
+    private void ouvrirDetailsNavire(JSONObject navire) {
+        View view = getLayoutInflater().inflate(R.layout.dialog_navire_details, null);
+
+        try {
+            // En-tête
+            ((TextView) view.findViewById(R.id.dlgNom))
+                    .setText(navire.optString("nom", "—"));
+            ((TextView) view.findViewById(R.id.dlgType))
+                    .setText(navire.optString("type_navire", "Type non spécifié"));
+
+            // Identification
+            ((TextView) view.findViewById(R.id.dlgLloyds))
+                    .setText("N° Lloyds : " + navire.optString("num_lloyds", "Non renseigné"));
+            ((TextView) view.findViewById(R.id.dlgPavillon))
+                    .setText("🏳 Pavillon : " + navire.optString("pavillon", "Non renseigné"));
+            String portNom = navire.optString("port_attache_nom", "");
+            if (portNom.isEmpty()) {
+                portNom = navire.optString("port_nom", "—");
+            }
+            ((TextView) view.findViewById(R.id.dlgPort))
+                    .setText("🏠 Port d'attache : " + portNom);
+
+            // Caractéristiques
+            ((TextView) view.findViewById(R.id.dlgLongueur))
+                    .setText("↔ Longueur : " + navire.optString("longueur", "—") + " m");
+            ((TextView) view.findViewById(R.id.dlgLargeur))
+                    .setText("↕ Largeur : " + navire.optString("largeur", "—") + " m");
+            ((TextView) view.findViewById(R.id.dlgTirantEau))
+                    .setText("🌊 Tirant d'eau : " + navire.optString("tirant_eau", "—") + " m");
+            ((TextView) view.findViewById(R.id.dlgCapacite))
+                    .setText("📦 Capacité : " + navire.optString("capacite", "—") + " EVP");
+
+            // Équipements
+            boolean prop = navire.optBoolean("propulseur", false);
+            boolean remo = navire.optBoolean("remorqueur", false);
+            boolean auto = navire.optBoolean("autorise", false);
+
+            ((TextView) view.findViewById(R.id.dlgPropulseur))
+                    .setText((prop ? "✅" : "❌") + " Propulseur d'étrave");
+            ((TextView) view.findViewById(R.id.dlgRemorqueur))
+                    .setText((remo ? "✅" : "❌") + " Remorqueur requis");
+            ((TextView) view.findViewById(R.id.dlgAutorise))
+                    .setText((auto ? "✅" : "❌") + " Autorisé au port");
+
+            // Fret
+            ((TextView) view.findViewById(R.id.dlgFret))
+                    .setText(navire.optString("fret_type", "—")
+                            + " — " + navire.optString("fret_libelle", "—"));
+
+            // Escale (visible seulement si applicable)
+            boolean enEscale = navire.optBoolean("en_escale", false);
+            boolean enAttente = navire.optBoolean("en_attente", false);
+
+            if (enEscale || enAttente) {
+                view.findViewById(R.id.dlgSectionEscale).setVisibility(View.VISIBLE);
+
+                ((TextView) view.findViewById(R.id.dlgEscaleStatut))
+                        .setText("Statut : " + navire.optString("statut", "—"));
+                ((TextView) view.findViewById(R.id.dlgEscaleArrivee))
+                        .setText("📅 Arrivée prévue : " + navire.optString("escale_date_arrive", "—"));
+                ((TextView) view.findViewById(R.id.dlgEscaleDepart))
+                        .setText("📅 Départ prévu : " + navire.optString("escale_date_depart", "—"));
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Erreur d'affichage des détails", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setView(view)
+                .setPositiveButton("Fermer", null)
+                .show();
     }
 
     // ── Déconnexion ────────────────────────────────────────────────────────

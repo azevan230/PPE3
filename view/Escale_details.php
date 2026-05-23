@@ -29,11 +29,12 @@
         <li><strong>Date de départ :</strong>      <?= htmlspecialchars($escale['date_depart']) ?></li>
         <li><strong>Destination suivante :</strong><?= htmlspecialchars($escale['destination'] ?? 'Non renseignée') ?></li>
         <li><strong>Fret :</strong>                <?= htmlspecialchars($escale['fret_type']) ?> — <?= htmlspecialchars($escale['fret_libelle']) ?></li>
-        <li><strong>Docker :</strong>              <?= htmlspecialchars($escale['docker_nom'] . ' ' . $escale['docker_prenom']) ?></li>
-        <li><strong>Pilote 1 (entrée) :</strong>  <?= htmlspecialchars($escale['pilote1_nom'] . ' ' . $escale['pilote1_prenom']) ?></li>
-        <li><strong>Pilote 2 (sortie) :</strong>  <?= htmlspecialchars($escale['pilote2_nom'] . ' ' . $escale['pilote2_prenom']) ?></li>
-        <li><strong>Quai :</strong>                <?= htmlspecialchars($escale['quai_nom']) ?></li>
-        <li><strong>Poste d'accostage :</strong>  Poste <?= htmlspecialchars($escale['id_poste_accostage']) ?></li>
+        <li><strong>Statut :</strong>              <?= htmlspecialchars($escale['statut'] ?? 'validee') ?></li>
+        <li><strong>Docker :</strong>              <?= !empty($escale['docker_nom']) ? htmlspecialchars($escale['docker_nom'] . ' ' . $escale['docker_prenom']) : '<em>Non affecté</em>' ?></li>
+        <li><strong>Pilote 1 (entrée) :</strong>  <?= !empty($escale['pilote1_nom']) ? htmlspecialchars($escale['pilote1_nom'] . ' ' . $escale['pilote1_prenom']) : '<em>Non affecté</em>' ?></li>
+        <li><strong>Pilote 2 (sortie) :</strong>  <?= !empty($escale['pilote2_nom']) ? htmlspecialchars($escale['pilote2_nom'] . ' ' . $escale['pilote2_prenom']) : '<em>Non affecté</em>' ?></li>
+        <li><strong>Quai :</strong>                <?= !empty($escale['quai_nom']) ? htmlspecialchars($escale['quai_nom']) : '<em>Non affecté</em>' ?></li>
+        <li><strong>Poste d'accostage :</strong>  <?= !empty($escale['id_poste_accostage']) ? 'Poste ' . htmlspecialchars($escale['id_poste_accostage']) : '<em>Non affecté</em>' ?></li>
     </ul>
 
     <div class="actions">

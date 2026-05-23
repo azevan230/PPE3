@@ -16,6 +16,10 @@ function creerNavire() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Récupération et nettoyage des données
         $nom = trim($_POST['nom'] ?? '');
+        $num_lloyds       = !empty($_POST['num_lloyds'])       ? trim($_POST['num_lloyds'])       : null;
+        $type_navire      = !empty($_POST['type_navire'])      ? trim($_POST['type_navire'])      : null;
+        $pavillon         = !empty($_POST['pavillon'])         ? trim($_POST['pavillon'])         : null;
+        $port_attache_nom = !empty($_POST['port_attache_nom']) ? trim($_POST['port_attache_nom']) : null;
         $autorise = !empty($_POST['autorise']) ? 1 : 0;
         $longueur = floatval($_POST['longueur'] ?? 0);
         $largeur = floatval($_POST['largeur'] ?? 0);
@@ -32,7 +36,7 @@ function creerNavire() {
             $error = 'Le nom du navire est obligatoire';
         } else {
             try {
-                insertNavire($nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port);
+                insertNavire($nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port, $num_lloyds, $type_navire, $pavillon, $port_attache_nom);
                 header('Location: index.php?page=navires&success=Navire créé avec succès');
                 exit;
             } catch (Exception $e) {
@@ -80,6 +84,10 @@ function modifierNavire($id_navire) {
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nom = trim($_POST['nom'] ?? '');
+        $num_lloyds       = !empty($_POST['num_lloyds'])       ? trim($_POST['num_lloyds'])       : null;
+        $type_navire      = !empty($_POST['type_navire'])      ? trim($_POST['type_navire'])      : null;
+        $pavillon         = !empty($_POST['pavillon'])         ? trim($_POST['pavillon'])         : null;
+        $port_attache_nom = !empty($_POST['port_attache_nom']) ? trim($_POST['port_attache_nom']) : null;
         $autorise = !empty($_POST['autorise']) ? 1 : 0;
         $longueur = floatval($_POST['longueur'] ?? 0);
         $largeur = floatval($_POST['largeur'] ?? 0);
@@ -95,7 +103,7 @@ function modifierNavire($id_navire) {
             $error = 'Le nom du navire est obligatoire';
         } else {
             try {
-                updateNavire($id_navire, $nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port);
+                updateNavire($id_navire, $nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port, $num_lloyds, $type_navire, $pavillon, $port_attache_nom);
                 header('Location: index.php?page=navires&success=Navire modifié avec succès');
                 exit;
             } catch (Exception $e) {

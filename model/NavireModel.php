@@ -18,39 +18,45 @@ function getNavireById($id_navire) {
 
 // ─── Créer ─────────────────────────────────────────────────────────────────
 
-function insertNavire($nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port) {
+function insertNavire($nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port,
+                     $num_lloyds = null, $type_navire = null, $pavillon = null, $port_attache_nom = null) {
     if (empty($id_fret) || empty($id_armateur) || empty($id_port)) {
         throw new Exception("Le type de fret, l'armateur et le port sont obligatoires");
     }
     $pdo  = getConnexion();
     $stmt = $pdo->prepare("
-        INSERT INTO navire (nom, autorise, longueur, largeur, tirant_eau, capacite, propulseur, remorqueur, id_fret, id, id_port)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO navire (num_lloyds, nom, type_navire, pavillon, port_attache_nom, autorise, longueur, largeur, tirant_eau, capacite, propulseur, remorqueur, id_fret, id, id_port)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
-    return $stmt->execute([$nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port]);
+    return $stmt->execute([$num_lloyds, $nom, $type_navire, $pavillon, $port_attache_nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port]);
 }
 
 // ─── Modifier ──────────────────────────────────────────────────────────────
 // CORRECTION : id_armateur (colonne "id") est maintenant inclus dans l'UPDATE
 
-function updateNavire($id_navire, $nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port) {
+function updateNavire($id_navire, $nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port,
+                     $num_lloyds = null, $type_navire = null, $pavillon = null, $port_attache_nom = null) {
     $pdo  = getConnexion();
     $stmt = $pdo->prepare("
         UPDATE navire SET
-            nom        = ?,
-            autorise   = ?,
-            longueur   = ?,
-            largeur    = ?,
-            tirant_eau = ?,
-            capacite   = ?,
-            propulseur = ?,
-            remorqueur = ?,
-            id_fret    = ?,
-            id         = ?,
-            id_port    = ?
+            num_lloyds       = ?,
+            nom              = ?,
+            type_navire      = ?,
+            pavillon         = ?,
+            port_attache_nom = ?,
+            autorise         = ?,
+            longueur         = ?,
+            largeur          = ?,
+            tirant_eau       = ?,
+            capacite         = ?,
+            propulseur       = ?,
+            remorqueur       = ?,
+            id_fret          = ?,
+            id               = ?,
+            id_port          = ?
         WHERE id_navire = ?
     ");
-    return $stmt->execute([$nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port, $id_navire]);
+    return $stmt->execute([$num_lloyds, $nom, $type_navire, $pavillon, $port_attache_nom, $autorise, $longueur, $largeur, $tirant_eau, $capacite, $propulseur, $remorqueur, $id_fret, $id_armateur, $id_port, $id_navire]);
 }
 
 // ─── Supprimer ─────────────────────────────────────────────────────────────
@@ -70,7 +76,7 @@ function getAllFrets() {
 
 function getAllArmateurs() {
     $pdo = getConnexion();
-    return $pdo->query("SELECT id, nom, prenom FROM armateur ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
+    return $pdo->query("SELECT id, nom FROM armateur ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getAllPorts() {

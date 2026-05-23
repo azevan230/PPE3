@@ -3,46 +3,67 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@color/primary_mid">
 
     <TextView
-        android:text="Date d'arrivée"
+        android:text="📅 Date d'arrivée"
+        android:textColor="@color/accent_cyan"
         android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginBottom="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/txtDateArrive"
         android:text="Non sélectionnée"
-        android:textColor="#666666"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:background="@drawable/bg_edittext"
         android:layout_marginBottom="8dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btnPickArrive"
         android:text="Choisir la date d'arrivée"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:background="@drawable/bg_button_primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="20dp"/>
 
     <TextView
-        android:text="Date de départ"
+        android:text="📅 Date de départ"
+        android:textColor="@color/accent_cyan"
         android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginBottom="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/txtDateDepart"
         android:text="Non sélectionnée"
-        android:textColor="#666666"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:background="@drawable/bg_edittext"
         android:layout_marginBottom="8dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btnPickDepart"
         android:text="Choisir la date de départ"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:background="@drawable/bg_button_primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

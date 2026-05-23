@@ -18,7 +18,7 @@ import okhttp3.Response;
 public class ApiClient {
 
     // ⚠️ Remplace par ton IP locale (ipconfig) ou 10.0.2.2 si émulateur
-    private static final String BASE_URL = "http://172.20.10.2/PPE3/api/index.php/";
+    private static final String BASE_URL = "http://192.168.0.113/PPE3/api/index.php/";
     private static final String PREFS_NAME = "ppe3_prefs";
     private static final String KEY_TOKEN = "token";
 
@@ -56,31 +56,45 @@ public class ApiClient {
     // ── CONNEXION ──────────────────────────────────────────────────────────
 
     public void connecter(String login, String mdp, ApiCallback callback) {
-        String url = BASE_URL + "connecteArmateur?id=" + login + "&mdp=" + mdp;
+        try {
+            JSONObject bodyJson = new JSONObject();
+            bodyJson.put("id", login);
+            bodyJson.put("mdp", mdp);
 
-        Request request = new Request.Builder().url(url).get().build();
+            RequestBody body = RequestBody.create(
+                    bodyJson.toString(),
+                    MediaType.get("application/json")
+            );
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                callback.onErreur("Impossible de joindre le serveur");
-            }
+            Request request = new Request.Builder()
+                    .url(BASE_URL + "connecteArmateur")
+                    .post(body)
+                    .build();
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    JSONObject json = new JSONObject(response.body().string());
-                    if (json.getBoolean("succes")) {
-                        sauvegarderToken(json.getString("token"));
-                        callback.onSucces(json);
-                    } else {
-                        callback.onErreur(json.getString("message"));
-                    }
-                } catch (Exception e) {
-                    callback.onErreur("Erreur de lecture de la réponse");
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    callback.onErreur("Impossible de joindre le serveur");
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    try {
+                        JSONObject json = new JSONObject(response.body().string());
+                        if (json.getBoolean("succes")) {
+                            sauvegarderToken(json.getString("token"));
+                            callback.onSucces(json);
+                        } else {
+                            callback.onErreur(json.getString("message"));
+                        }
+                    } catch (Exception e) {
+                        callback.onErreur("Erreur de lecture de la réponse");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            callback.onErreur("Erreur de construction de la requête");
+        }
     }
 
     // ── DÉCONNEXION ────────────────────────────────────────────────────────
@@ -93,7 +107,7 @@ public class ApiClient {
     // ── VOIR LES NAVIRES ───────────────────────────────────────────────────
 
     public void voirNavires(ApiCallback callback) {
-        RequestBody body = RequestBody.create("", MediaType.get("application/json"));
+        RequestBody body = RequestBody.create("{}", MediaType.get("application/json"));
 
         Request request = new Request.Builder()
                 .url(BASE_URL + "voirNaviresArmateur")

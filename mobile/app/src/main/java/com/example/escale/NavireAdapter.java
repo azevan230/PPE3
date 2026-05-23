@@ -15,13 +15,14 @@ import java.util.List;
 
 public class NavireAdapter extends ArrayAdapter<JSONObject> {
 
-    public interface OnDemandeEscaleListener {
+    public interface NavireActionListener {
         void onDemande(JSONObject navire);
+        void onClickItem(JSONObject navire);
     }
 
-    private final OnDemandeEscaleListener listener;
+    private final NavireActionListener listener;
 
-    public NavireAdapter(Context context, List<JSONObject> navires, OnDemandeEscaleListener listener) {
+    public NavireAdapter(Context context, List<JSONObject> navires, NavireActionListener listener) {
         super(context, 0, navires);
         this.listener = listener;
     }
@@ -39,6 +40,8 @@ public class NavireAdapter extends ArrayAdapter<JSONObject> {
         TextView txtFret     = convertView.findViewById(R.id.txtFret);
         TextView txtEnEscale = convertView.findViewById(R.id.txtEnEscale);
         Button   btnEscale   = convertView.findViewById(R.id.btnDemanderEscale);
+        // Clic sur l'item entier -> ouvre les détails
+        convertView.setOnClickListener(v -> listener.onClickItem(navire));
 
         try {
             txtNom.setText(navire.getString("nom"));
@@ -58,9 +61,11 @@ public class NavireAdapter extends ArrayAdapter<JSONObject> {
 
                 // Couleur différente selon le statut
                 if (enAttente) {
-                    txtEnEscale.setTextColor(Color.parseColor("#BA7517")); // ambre/orange
+                    txtEnEscale.setTextColor(Color.parseColor("#FFE2B8"));
+                    txtEnEscale.setBackgroundResource(R.drawable.bg_status_attente);
                 } else {
-                    txtEnEscale.setTextColor(Color.parseColor("#0F6E56")); // teal/vert
+                    txtEnEscale.setTextColor(Color.parseColor("#A8E6CF"));
+                    txtEnEscale.setBackgroundResource(R.drawable.bg_status_escale);
                 }
             } else {
                 // Disponible -> afficher le bouton

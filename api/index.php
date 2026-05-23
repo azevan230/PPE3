@@ -54,10 +54,11 @@ $route  = basename(trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
 // ROUTE 1 — GET /connecteArmateur?id=LOGIN&mdp=MDP
 // Authentifie via utilisateur.id_armateur (FK), retourne un token
 // ═══════════════════════════════════════════════════════════════════════════
-if ($method === 'GET' && $route === 'connecteArmateur') {
+if ($method === 'POST' && $route === 'connecteArmateur') {
 
-    $login = $_GET['id']  ?? '';
-    $mdp   = $_GET['mdp'] ?? '';
+    $input = json_decode(file_get_contents('php://input'), true);
+    $login = $input['id']  ?? '';
+    $mdp   = $input['mdp'] ?? '';
 
     if (empty($login) || empty($mdp)) {
         repondre(['succes' => false, 'message' => 'Paramètres id et mdp requis'], 400);
@@ -142,6 +143,7 @@ elseif ($method === 'POST' && $route === 'voirNaviresArmateur') {
                 n.nom,
                 n.type_navire,
                 n.pavillon,
+                n.port_attache_nom,
                 n.longueur,
                 n.largeur,
                 n.tirant_eau,
@@ -384,7 +386,7 @@ else {
         'succes'  => false,
         'message' => 'Route inconnue',
         'routes'  => [
-            'GET  connecteArmateur?id=LOGIN&mdp=MDP',
+            'POST connecteArmateur        body: {id, mdp}',
             'GET  deconnecteArmateur',
             'POST voirNaviresArmateur     header: X-Token',
             'POST demandeEscale           header: X-Token  body: {id_navire, date_arrive, date_depart, provenance?, destination?, tonnage?}',

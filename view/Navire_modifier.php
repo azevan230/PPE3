@@ -148,9 +148,30 @@
 
         <form method="POST" action="index.php?page=navire_modifier&id_navire=<?= $navire['id_navire'] ?>">
             
+
+            <div class="form-group">
+                <label for="num_lloyds">N° Lloyds</label>
+                <input type="text" id="num_lloyds" name="num_lloyds" maxlength="15" value="<?= htmlspecialchars($navire['num_lloyds'] ?? '') ?>">
+            </div>
+
             <div class="form-group">
                 <label for="nom">Nom du navire *</label>
                 <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($navire['nom']) ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="type_navire">Type de navire</label>
+                <input type="text" id="type_navire" name="type_navire" value="<?= htmlspecialchars($navire['type_navire'] ?? '') ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="pavillon">Pavillon</label>
+                <input type="text" id="pavillon" name="pavillon" value="<?= htmlspecialchars($navire['pavillon'] ?? '') ?>">
+            </div>
+            
+            <div class="form-group">
+                <label for="port_attache_nom">Port d'attache</label>
+                <input type="text" id="port_attache_nom" name="port_attache_nom" value="<?= htmlspecialchars($navire['port_attache_nom'] ?? '') ?>">
             </div>
 
             <div class="checkbox-group">
@@ -206,7 +227,7 @@
                     <option value="">-- Sélectionner un armateur --</option>
                     <?php foreach ($armateurs as $armateur): ?>
                         <option value="<?= $armateur['id'] ?>" <?= $navire['id'] == $armateur['id'] ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($armateur['nom']) ?> <?= htmlspecialchars($armateur['prenom']) ?>
+                            <?= htmlspecialchars($armateur['nom']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

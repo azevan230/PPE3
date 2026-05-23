@@ -287,10 +287,10 @@
                 <div class="module-description">Gérer les propriétaires de navires</div>
             </a>
             
-            <a href="index.php?page=escales" class="module-card">
+            <a href="index.php?page=escales&statut=tous" class="module-card">
                 <div class="module-icon">📋</div>
-                <div class="module-title">Demandes d'Escales</div>
-                <div class="module-description">Traiter les demandes et propositions</div>
+                <div class="module-title">Toutes les Escales</div>
+                <div class="module-description">Liste complète et suivi des escales</div>
             </a>
             
             <a href="index.php?page=quais" class="module-card">
@@ -305,10 +305,10 @@
                 <div class="module-description">Pilotes, dockers et personnel portuaire</div>
             </a>
             
-            <a href="index.php?page=escales" class="module-card">
+            <a href="index.php?page=escales&statut=en_attente" class="module-card">
                 <div class="module-icon">📊</div>
-                <div class="module-title">Suivi des Escales</div>
-                <div class="module-description">Planifier et suivre les escales confirmées</div>
+                <div class="module-title">Demandes en attente</div>
+                <div class="module-description">Demandes envoyées par les armateurs à valider</div>
             </a>
         </div>
     </div>

@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Palette Port de La Rochelle -->
+    <color name="primary_dark">#0F2027</color>
+    <color name="primary_mid">#203A43</color>
+    <color name="primary_light">#2C5364</color>
+    <color name="accent_cyan">#4DD0E1</color>
+    <color name="accent_teal">#26A69A</color>
+    <color name="accent_amber">#F39C12</color>
+    <color name="accent_danger">#E74C3C</color>
+    <color name="accent_success">#27AE60</color>
+
+    <!-- Glass / surfaces -->
+    <color name="glass_bg">#33FFFFFF</color>
+    <color name="glass_border">#55FFFFFF</color>
+    <color name="text_secondary">#B0BEC5</color>
+
+    <!-- Overlay sombre -->
+    <color name="overlay_dark">#CC0F2027</color>
 </resources>

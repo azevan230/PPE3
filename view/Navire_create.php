@@ -134,10 +134,30 @@
         <?php endif; ?>
 
         <form method="POST" action="index.php?page=navire_create">
+
+            <div class="form-group">
+                <label for="num_lloyds">N° Lloyds</label>
+                <input type="text" id="num_lloyds" name="num_lloyds" maxlength="15">
+            </div>
             
             <div class="form-group">
                 <label for="nom">Nom du navire *</label>
                 <input type="text" id="nom" name="nom" required>
+            </div>
+
+            <div class="form-group">
+                <label for="type_navire">Type de navire</label>
+                <input type="text" id="type_navire" name="type_navire" placeholder="Pétrolier, Cargo polyvalent, Vraquier...">
+            </div>
+
+            <div class="form-group">
+                <label for="pavillon">Pavillon (pays)</label>
+                <input type="text" id="pavillon" name="pavillon" placeholder="France, Allemagne...">
+            </div>
+
+            <div class="form-group">
+                <label for="port_attache_nom">Port d'attache</label>
+                <input type="text" id="port_attache_nom" name="port_attache_nom" placeholder="Le Havre, Rotterdam...">
             </div>
 
             <div class="checkbox-group">
@@ -193,7 +213,7 @@
                     <option value="">-- Sélectionner un armateur --</option>
                     <?php foreach ($armateurs as $armateur): ?>
                         <option value="<?= $armateur['id'] ?>">
-                            <?= htmlspecialchars($armateur['nom']) ?> <?= htmlspecialchars($armateur['prenom']) ?>
+                            <?= htmlspecialchars($armateur['nom']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

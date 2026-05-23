@@ -32,7 +32,7 @@ function creerEscale() {
             $_POST['id_fret'],
             $_POST['id_docker'],
             $_POST['id_pilote1'],
-            $_POST['id_pilote2'],
+            !empty($_POST['id_pilote2']) ? (int) $_POST['id_pilote2'] : null,
             $_POST['id_poste_accostage'],
             $_POST['id_navire'],
             !empty($_POST['id_agent'])    ? (int) $_POST['id_agent']        : null,
