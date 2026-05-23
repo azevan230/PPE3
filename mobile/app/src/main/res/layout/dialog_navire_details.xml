@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary_mid">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- En-tête : icône + nom -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:text="🚢"
+                android:textSize="40sp"
+                android:layout_marginEnd="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dlgNom"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/dlgType"
+                    android:textColor="@color/accent_cyan"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Section Identification -->
+        <TextView
+            android:text="🆔 Identification"
+            android:textColor="@color/accent_cyan"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp"
+            android:background="@drawable/bg_glass_card"
+            android:layout_marginBottom="16dp">
+
+            <TextView android:id="@+id/dlgLloyds"   android:textColor="@color/white" android:textSize="13sp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/dlgPavillon" android:textColor="@color/white" android:textSize="13sp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/dlgPort"     android:textColor="@color/white" android:textSize="13sp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Section Caractéristiques -->
+        <TextView
+            android:text="📏 Caractéristiques"
+            android:textColor="@color/accent_cyan"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp"
+            android:background="@drawable/bg_glass_card"
+            android:layout_marginBottom="16dp">
+
+            <TextView android:id="@+id/dlgLongueur"   android:textColor="@color/white" android:textSize="13sp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/dlgLargeur"    android:textColor="@color/white" android:textSize="13sp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/dlgTirantEau"  android:textColor="@color/white" android:textSize="13sp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/dlgCapacite"   android:textColor="@color/white" android:textSize="13sp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Section Équipements -->
+        <TextView
+            android:text="⚙️ Équipements"
+            android:textColor="@color/accent_cyan"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp"
+            android:background="@drawable/bg_glass_card"
+            android:layout_marginBottom="16dp">
+
+            <TextView android:id="@+id/dlgPropulseur" android:textColor="@color/white" android:textSize="13sp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/dlgRemorqueur" android:textColor="@color/white" android:textSize="13sp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/dlgAutorise"   android:textColor="@color/white" android:textSize="13sp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Section Fret -->
+        <TextView
+            android:text="📦 Fret transporté"
+            android:textColor="@color/accent_cyan"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp"
+            android:background="@drawable/bg_glass_card"
+            android:layout_marginBottom="16dp">
+
+            <TextView android:id="@+id/dlgFret" android:textColor="@color/white" android:textSize="13sp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Section Escale en cours (visible seulement si applicable) -->
+        <LinearLayout
+            android:id="@+id/dlgSectionEscale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:text="⚓ Escale"
+                android:textColor="@color/accent_cyan"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp"
+                android:background="@drawable/bg_glass_card">
+
+                <TextView android:id="@+id/dlgEscaleStatut"  android:textColor="@color/white" android:textStyle="bold" android:textSize="13sp" android:paddingBottom="6dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <TextView android:id="@+id/dlgEscaleArrivee" android:textColor="@color/white" android:textSize="13sp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <TextView android:id="@+id/dlgEscaleDepart"  android:textColor="@color/white" android:textSize="13sp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
